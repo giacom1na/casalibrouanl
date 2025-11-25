@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa Universitaria del Libro UANL</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Libre Bodoni (Substitute for Bodoni) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        uanl: {
+                            blue: '#004a87',
+                            gold: '#fccf0a',
+                            text: '#414143',
+                        }
+                    },
+                    fontFamily: {
+                        'arial-black': ['"Arial Black"', 'Gadget', 'sans-serif'],
+                        'bodoni': ['"Libre Bodoni"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for nuances hard to do with utility classes only */
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .carousel-fade-enter {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .carousel-fade-enter-active {
+            opacity: 1;
+        }
+
+        /* Oval indicators */
+        .oval-indicator {
+            width: 30px;
+            height: 12px;
+            border: 2px solid #ffffff;
+            border-radius: 10px;
+            background-color: transparent;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .oval-indicator.active {
+            background-color: #ffffff;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-white text-uanl-text font-bodoni">
+
+    <!-- 1. NAVIGATION BAR -->
+    <header class="fixed top-0 w-full z-50 bg-uanl-blue shadow-md">
+        <div class="container mx-auto px-4 h-20 flex items-center justify-between lg:justify-center lg:gap-4">
+            
+            <!-- Logo Placeholder -->
+<div class="flex-shrink-0 mr-8">
+    <a href="#" class="flex items-center">
+        <img src="img/logocasauanl.svg" alt="Logo Casa Universitaria del Libro" class="h-16 w-auto"> 
+    </a>
+</div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden lg:flex items-center space-x-6 font-arial-black text-white text-sm">
+                
+                <!-- Dropdown: Nosotros -->
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>NOSOTROS <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-48 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="#la-casa" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">LA CASA</a>
+                        <a href="#contacto" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">CONTACTO</a>
+                    </div>
+                </div>
+
+                <!-- Dropdown: Editorial -->
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>EDITORIAL UNIVERSITARIA UANL <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-56 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="#" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">COLECCIONES EDITORIALES</a>
+                        <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">TIENDA</a>
+                    </div>
+                </div>
+
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="hover:text-uanl-gold transition-colors">UANLEER</a>
+                <a href="#noticias" class="hover:text-uanl-gold transition-colors">NOTICIAS</a>
+                <a href="#programas" class="hover:text-uanl-gold transition-colors">PROGRAMAS Y PROYECTOS</a>
+                
+                <!-- Icons -->
+                <a href="#calendario" title="Calendario de Eventos" class="text-lg hover:text-uanl-gold transition-colors">
+                    <i class="fa-regular fa-calendar-days"></i>
+                </a>
+                <button onclick="toggleSearch()" title="Buscar" class="text-lg hover:text-uanl-gold transition-colors focus:outline-none">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </nav>
+
+            <!-- Mobile Menu Button (Hamburger) -->
+            <button class="lg:hidden text-white text-2xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Hidden Search Bar -->
+        <div id="searchBar" class="hidden bg-white py-4 px-6 absolute w-full shadow-md">
+            <input type="text" placeholder="Buscar palabras clave..." class="w-full border-b-2 border-uanl-blue p-2 outline-none text-uanl-text font-bodoni text-xl">
+        </div>
+    </header>
+
+    <!-- 2. HERO CAROUSEL -->
+    <main class="mt-20"> <!-- Margin top to account for fixed header -->
+        <section class="relative w-full h-[500px] md:h-[600px] overflow-hidden group">
+            
+            <!-- Slides -->
+            <div id="hero-slider" class="w-full h-full relative">
+                <!-- Slide 1 -->
+                <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-100">
+                    <img src="img/casa-universitaria-del-libro-foto.jpg" alt="Casa del Libro UANL" class="w-full h-full object-cover brightness-75">
+                </div>
+                <!-- Slide 2 -->
+                <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-0">
+                    <img src="img/casalibrocalle.jpeg" alt="Letrero de la Casa del Libro UANL" class="w-full h-full object-cover brightness-75">
+                </div>
+                <!-- Slide 3 -->
+                <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-0">
+                    <img src="img/interioreslibreria.jpg" alt="Casa del Libro UANL interiores librería" class="w-full h-full object-cover brightness-75">
+                </div>
+                <!-- Slide 4 -->
+                <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-0">
+                    <img src="img/librosuanl.jpg" alt="Eventos" class="w-full h-full object-cover brightness-75">
+                </div>
+            </div>
+
+            <!-- Overlay Text (Bottom Left) -->
+            <div class="absolute bottom-12 left-4 md:left-12 max-w-2xl text-white z-10 p-4 bg-gradient-to-t from-black/50 to-transparent">
+                <h1 class="text-5xl md:text-6xl font-bodoni mb-2">Bienvenido a tu Casa</h1>
+                <p class="text-xl md:text-2xl font-bodoni italic">Un refugio para la cultura, los libros, la lectura, la creatividad y la imaginación</p>
+            </div>
+
+            <!-- Oval Indicators (Top Left) -->
+            <div class="absolute top-8 left-4 md:left-12 flex space-x-3 z-20">
+                <div class="oval-indicator active" onclick="setSlide(0)"></div>
+                <div class="oval-indicator" onclick="setSlide(1)"></div>
+                <div class="oval-indicator" onclick="setSlide(2)"></div>
+                <div class="oval-indicator" onclick="setSlide(3)"></div>
+            </div>
+        </section>
+
+        <!-- 3. BUTTONS & ASIDE SECTION -->
+        <section class="container mx-auto px-4 py-12">
+            <div class="flex flex-col lg:flex-row gap-8">
+                
+                <!-- Left Side: Buttons (2/3 width) -->
+                <div class="w-full lg:w-2/3 flex flex-col md:flex-row gap-6 pr-0 lg:pr-12 items-center justify-center">
+                    <a href="#conoce" class="w-full md:w-1/2 h-40 bg-uanl-blue rounded-xl flex items-center justify-center text-white font-arial-black text-2xl hover:bg-opacity-90 transition shadow-lg text-center p-4">
+                        Conoce la Casa
+                    </a>
+                    <a href="#visita" class="w-full md:w-1/2 h-40 bg-uanl-blue rounded-xl flex items-center justify-center text-white font-arial-black text-2xl hover:bg-opacity-90 transition shadow-lg text-center p-4">
+                        Planea tu visita
+                    </a>
+                </div>
+
+                <!-- Right Side: Aside (1/3 width) -->
+                <aside class="w-full lg:w-1/3 bg-gray-50 p-6 border-l-4 border-uanl-blue rounded-r-lg">
+                    <h2 class="text-uanl-blue font-arial-black text-xl mb-6 border-b pb-2">Próximos eventos</h2>
+                    
+                    <div class="space-y-6">
+                        <!-- Event 1 -->
+                        <div class="flex gap-4">
+                            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=100&h=100" alt="Evento 1" class="w-20 h-20 object-cover rounded shadow">
+                            <div>
+                                <h3 class="font-bodoni font-bold text-uanl-text">Presentación: Poesía Viva</h3>
+                                <p class="text-sm font-bodoni text-gray-600 line-clamp-2">Lectura con autores locales en el patio central.</p>
+                                <span class="text-xs font-bold text-uanl-blue mt-1 block">18:00 HRS</span>
+                            </div>
+                        </div>
+                        <!-- Event 2 -->
+                        <div class="flex gap-4">
+                            <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&q=80&w=100&h=100" alt="Evento 2" class="w-20 h-20 object-cover rounded shadow">
+                            <div>
+                                <h3 class="font-bodoni font-bold text-uanl-text">Taller de Escritura</h3>
+                                <p class="text-sm font-bodoni text-gray-600 line-clamp-2">Inicia tu primera novela con este curso intensivo.</p>
+                                <span class="text-xs font-bold text-uanl-blue mt-1 block">10:00 HRS</span>
+                            </div>
+                        </div>
+                        <!-- Event 3 -->
+                        <div class="flex gap-4">
+                            <img src="https://images.unsplash.com/photo-1460518451285-97b6aa326961?auto=format&fit=crop&q=80&w=100&h=100" alt="Evento 3" class="w-20 h-20 object-cover rounded shadow">
+                            <div>
+                                <h3 class="font-bodoni font-bold text-uanl-text">Feria del Libro Universitario</h3>
+                                <p class="text-sm font-bodoni text-gray-600 line-clamp-2">Grandes descuentos en editoriales universitarias.</p>
+                                <span class="text-xs font-bold text-uanl-blue mt-1 block">12:00 HRS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 text-right">
+                        <a href="#noticias" class="font-arial-black text-uanl-blue hover:text-uanl-gold transition-colors inline-flex items-center gap-2">
+                            Ir al calendario <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <!-- 4. SPLIT SECTION (NOVELTIES & SURVEY) -->
+        <section class="w-full flex flex-col lg:flex-row mt-8">
+            
+            <!-- Left Half: Novedades -->
+            <div class="w-full lg:w-1/2 bg-white p-8 lg:p-16 flex flex-col items-center justify-center text-center">
+                <h2 class="text-uanl-gold font-arial-black text-3xl mb-8">Novedades</h2>
+                
+                <!-- Mini Book Carousel -->
+                <div class="relative w-full max-w-sm mx-auto text-center">
+                    <!-- Book Item (Static for demo, but logically a carousel) -->
+                    <div class="book-item">
+                        <a href="https://tiendacasadellibro.uanl.mx/producto/lo-personal-es-poetico/" target="_blank" class="block group">
+                            <div class="w-48 h-72 bg-gray-200 mx-auto mb-4 shadow-xl overflow-hidden">
+                                <img src="img/Teresa-Avedoy-Lo-personal-es-poetico.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <h3 class="font-bodoni text-xl font-bold text-uanl-text">Lo personal es poético</h3>
+                            <p class="font-bodoni text-lg text-uanl-text mt-1">$ 140.00 MXN</p>
+                        </a>
+                    </div>
+                    
+                    <!-- Simple Carousel Navigation Dots -->
+                    <div class="flex justify-center gap-2 mt-6">
+                        <div class="w-2 h-2 rounded-full bg-uanl-blue"></div>
+                        <div class="w-2 h-2 rounded-full bg-gray-300"></div>
+                        <div class="w-2 h-2 rounded-full bg-gray-300"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Half: CTA Encuesta -->
+            <div class="w-full lg:w-1/2 relative min-h-[400px] flex items-center justify-center">
+                <div class="absolute inset-0 z-0">
+                    <img src="img/visitantescasalibro.jpg" alt="Escribiendo" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-uanl-blue/30 backdrop-blur-[2px]"></div>
+                </div>
+                
+                <div class="relative z-10 text-center">
+                    <div class="mb-4 bg-white/90 inline-block px-4 py-1 rounded">
+                        <span class="text-uanl-blue font-bodoni text-xl font-bold">Queremos escucharte</span>
+                    </div>
+                    <br>
+                    <a href="#encuesta" class="inline-block bg-uanl-blue text-white font-bodoni text-xl px-8 py-4 rounded-xl shadow-lg hover:bg-uanl-gold hover:text-uanl-blue transition-all duration-300 transform hover:-translate-y-1">
+                        Cuéntanos de tu visita
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 5. FOOTER -->
+    <footer class="bg-uanl-text text-white py-12 border-t-4 border-uanl-gold">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Column 1: Contact Form -->
+            <div>
+                <h3 class="font-bodoni text-2xl mb-4 text-white border-b border-gray-500 pb-2 inline-block">Contáctanos</h3>
+                <form class="space-y-3">
+                    <input type="email" placeholder="Tu correo electrónico" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold font-bodoni">
+                    <textarea maxlength="120" rows="3" placeholder="Mensaje (máx 120 caracteres)" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold font-bodoni resize-none"></textarea>
+                    <button type="button" class="bg-uanl-blue text-white px-4 py-1 rounded hover:bg-uanl-gold hover:text-uanl-blue transition font-arial-black text-sm">ENVIAR</button>
+                </form>
+            </div>
+
+            <!-- Column 2: Info Centro -->
+            <div class="text-center flex flex-col justify-center items-center font-bodoni space-y-2">
+                <p class="text-lg font-bold">Casa Universitaria del Libro UANL</p>
+                <p>Padre Mier 909 Pte. esquina con Vallarta.</p>
+                <p>Monterrey, Nuevo León.</p>
+                <p class="text-uanl-gold font-bold mt-2">81 8329 4111</p>
+            </div>
+
+            <!-- Column 3: Redes Sociales -->
+            <div class="flex items-center justify-center md:justify-end gap-6">
+                <a href="https://www.facebook.com/CasaLibroUANL/?locale=es_LA" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.instagram.com/casadellibrouanl/?hl=es" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@casalibrouanl" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+        
+        <div class="text-center mt-8 text-gray-500 text-xs font-arial-black">
+            &copy; 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN
+        </div>
+    </footer>
+
+    <!-- JavaScript for Logic -->
+    <script>
+        // --- Carousel Logic ---
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('#hero-slider .slide');
+        const indicators = document.querySelectorAll('.oval-indicator');
+        const totalSlides = slides.length;
+
+        function updateSlide() {
+            // Update images
+            slides.forEach((slide, index) => {
+                slide.style.opacity = index === currentSlide ? '1' : '0';
+            });
+            // Update indicators
+            indicators.forEach((ind, index) => {
+                if(index === currentSlide) {
+                    ind.classList.add('active');
+                    ind.style.backgroundColor = '#ffffff';
+                } else {
+                    ind.classList.remove('active');
+                    ind.style.backgroundColor = 'transparent';
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlide();
+        }
+
+        function setSlide(index) {
+            currentSlide = index;
+            updateSlide();
+            // Reset timer on manual click
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        // Auto advance
+        let slideInterval = setInterval(nextSlide, 5000);
+
+        // --- Search Toggle ---
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('hidden');
+            if(!searchBar.classList.contains('hidden')){
+                searchBar.querySelector('input').focus();
+            }
+        }
+    </script>
+</body>
+</html>
