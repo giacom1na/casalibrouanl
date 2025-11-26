@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Casa Universitaria del Libro UANL</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        uanl: { blue: '#004a87', gold: '#fccf0a', text: '#414143' }
+                    },
+                    fontFamily: {
+                        'arial-black': ['"Arial Black"', 'Gadget', 'sans-serif'],
+                        'bodoni': ['"Libre Bodoni"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .nav-item:hover .dropdown-menu { display: block; }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-white text-uanl-text font-bodoni flex flex-col min-h-screen">
+
+    <header class="fixed top-0 w-full z-50 bg-uanl-blue shadow-md">
+        <div class="container mx-auto px-4 h-20 flex items-center justify-between lg:justify-center lg:gap-4 relative z-50 bg-uanl-blue">
+            <div class="flex-shrink-0 mr-8">
+                <a href="index.html" class="flex items-center">
+                    <img src="img/logocasauanl.svg" alt="Logo Casa Universitaria del Libro" class="h-16 w-auto"> 
+                </a>
+            </div>
+
+            <nav class="hidden lg:flex items-center space-x-6 font-arial-black text-white text-sm">
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>NOSOTROS <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-48 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="lacasa.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">LA CASA</a>
+                        <a href="contacto.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">CONTACTO</a>
+                    </div>
+                </div>
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>EDITORIAL UNIVERSITARIA UANL <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-56 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="#" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">COLECCIONES EDITORIALES</a>
+                        <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">TIENDA</a>
+                    </div>
+                </div>
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="hover:text-uanl-gold transition-colors">UANLEER</a>
+                <a href="#noticias" class="hover:text-uanl-gold transition-colors">NOTICIAS</a>
+                <a href="#programas" class="hover:text-uanl-gold transition-colors">PROGRAMAS Y PROYECTOS</a>
+                <a href="#calendario" title="Calendario" class="text-lg hover:text-uanl-gold transition-colors"><i class="fa-regular fa-calendar-days"></i></a>
+                <button onclick="toggleSearch()" title="Buscar" class="text-lg hover:text-uanl-gold transition-colors focus:outline-none"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </nav>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden absolute top-20 left-0 w-full bg-uanl-blue border-t border-blue-800 shadow-xl overflow-y-auto max-h-screen pb-20 z-40">
+            <div class="flex flex-col p-6 space-y-4 font-arial-black text-white">
+                <div class="border-b border-blue-800 pb-2">
+                    <span class="text-uanl-gold text-sm mb-2 block">NOSOTROS</span>
+                    <a href="lacasa.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">LA CASA</a>
+                    <a href="contacto.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">CONTACTO</a>
+                </div>
+                <div class="border-b border-blue-800 pb-2">
+                    <span class="text-uanl-gold text-sm mb-2 block">EDITORIAL</span>
+                    <a href="#" class="block py-2 pl-4 hover:bg-blue-900 rounded">COLECCIONES</a>
+                    <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block py-2 pl-4 hover:bg-blue-900 rounded">TIENDA</a>
+                </div>
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="block py-2 hover:text-uanl-gold">UANLEER</a>
+                <a href="#noticias" class="block py-2 hover:text-uanl-gold">NOTICIAS</a>
+                <a href="#programas" class="block py-2 hover:text-uanl-gold">PROGRAMAS</a>
+            </div>
+        </div>
+
+        <div id="searchBar" class="hidden bg-white py-4 px-6 absolute w-full shadow-md z-30">
+            <input type="text" placeholder="Buscar palabras clave..." class="w-full border-b-2 border-uanl-blue p-2 outline-none text-uanl-text font-bodoni text-xl">
+        </div>
+    </header>
+
+    <main class="mt-20 flex-grow">
+        <div class="container mx-auto px-4 py-12">
+            <div class="flex flex-col lg:flex-row gap-12">
+                
+                <article class="w-full lg:w-3/4">
+                    <h1 class="font-arial-black text-[#414143] text-4xl mb-10 border-b-4 border-uanl-gold pb-2 inline-block">Contactos</h1>
+                    
+                    <div class="space-y-8"> <div class="leading-[1.2]">
+                            <h2 class="font-arial-black text-uanl-blue text-xl">Dirección de Editorial Universitaria</h2>
+                            <a href="mailto:editorial.uanl@uanl.mx" class="block font-bodoni text-uanl-gold text-lg font-bold hover:underline">editorial.uanl@uanl.mx</a>
+                            <h3 class="font-bodoni text-uanl-text text-lg">8329-4111 y 8329-4095</h3>
+                        </div>
+
+                        <div class="leading-[1.2]">
+                            <h2 class="font-arial-black text-uanl-blue text-xl">Director</h2>
+                            <h2 class="font-bodoni text-uanl-text text-xl font-bold">Antonio Jesús Ramos Revillas</h2>
+                            <a href="mailto:antonio.ramosr@uanl.mx" class="block font-bodoni text-uanl-gold text-lg hover:underline">antonio.ramosr@uanl.mx</a>
+                            <h3 class="font-bodoni text-uanl-text text-lg">8329-4111</h3>
+                        </div>
+
+                        <div class="leading-[1.2]">
+                            <h2 class="font-arial-black text-uanl-blue text-xl">Coordinadora General</h2>
+                            <h2 class="font-bodoni text-uanl-text text-xl font-bold">Lorena Contreras Rodríguez</h2>
+                            <a href="mailto:lorena.contrerasr@uanl.mx" class="block font-bodoni text-uanl-gold text-lg hover:underline">lorena.contrerasr@uanl.mx</a>
+                            <h3 class="font-bodoni text-uanl-text text-lg">8329-4000 ext. 6564</h3>
+                        </div>
+
+                        <div class="leading-[1.2]">
+                            <h2 class="font-arial-black text-uanl-blue text-xl">Administración</h2>
+                            <h2 class="font-bodoni text-uanl-text text-xl font-bold">Mayra Felicitas Contreras Cortés</h2>
+                            <a href="mailto:mayra.contrerasc@uanl.mx" class="block font-bodoni text-uanl-gold text-lg hover:underline">mayra.contrerasc@uanl.mx</a>
+                            <h3 class="font-bodoni text-uanl-text text-lg">8329-4000 ext. 6695</h3>
+                        </div>
+
+                        <div class="leading-[1.2]">
+                            <h2 class="font-arial-black text-uanl-blue text-xl">Asistente de Dirección</h2>
+                            <h2 class="font-bodoni text-uanl-text text-xl font-bold">Karla Verónica García Martínez</h2>
+                            <a href="mailto:karla.garciag@uanl.mx" class="block font-bodoni text-uanl-gold text-lg hover:underline">karla.garciag@uanl.mx</a>
+                            <h3 class="font-bodoni text-uanl-text text-lg">818329-4095</h3>
+                        </div>
+
+                        <div class="leading-[1.2]">
+                            <h2 class="font-arial-black text-uanl-blue text-xl">Responsable de Librería</h2>
+                            <h2 class="font-bodoni text-uanl-text text-xl font-bold">Gloria Araceli Espinoza Lara</h2>
+                            <a href="mailto:araceli.espinozal@uanl.mx" class="block font-bodoni text-uanl-gold text-lg hover:underline">araceli.espinozal@uanl.mx</a>
+                            <h3 class="font-bodoni text-uanl-text text-lg">8329-4000 ext. 6690</h3>
+                        </div>
+
+                        <div class="leading-[1.2]">
+                            <h2 class="font-arial-black text-uanl-blue text-xl">Difusión y Eventos</h2>
+                            <h2 class="font-bodoni text-uanl-text text-xl font-bold">Irasema López</h2>
+                            <a href="mailto:irasema.lopezc@uanl.mx" class="block font-bodoni text-uanl-gold text-lg hover:underline">irasema.lopezc@uanl.mx</a>
+                            <h3 class="font-bodoni text-uanl-text text-lg">8329-4000 ext. 6698</h3>
+                        </div>
+
+                        <div class="leading-[1.2]">
+                            <h2 class="font-arial-black text-uanl-blue text-xl">Coordinador de Producción y Diseño Editorial</h2>
+                            <h2 class="font-bodoni text-uanl-text text-xl font-bold">Claudio Tamez Garza</h2>
+                            <a href="mailto:claudio.tamezg@uanl.mx" class="block font-bodoni text-uanl-gold text-lg hover:underline">claudio.tamezg@uanl.mx</a>
+                            <h3 class="font-bodoni text-uanl-text text-lg">8329-4000 ext. 6694</h3>
+                        </div>
+
+                        <div class="leading-[1.2]">
+                            <h2 class="font-arial-black text-uanl-blue text-xl">Coordinadora Editorial</h2>
+                            <h2 class="font-bodoni text-uanl-text text-xl font-bold">Jessica Nieto Puente</h2>
+                            <a href="mailto:jessica.nietop@uanl.mx" class="block font-bodoni text-uanl-gold text-lg hover:underline">jessica.nietop@uanl.mx</a>
+                            <h3 class="font-bodoni text-uanl-text text-lg">8329-4000 ext. 6697</h3>
+                        </div>
+
+                        <div class="leading-[1.2]">
+                            <h2 class="font-arial-black text-uanl-blue text-xl">Editora de Revista Armas y Letras</h2>
+                            <h2 class="font-bodoni text-uanl-text text-xl font-bold">Nohemí Zavala Castrellón</h2>
+                            <a href="mailto:nohemi.zavalac@uanl.mx" class="block font-bodoni text-uanl-gold text-lg hover:underline">nohemi.zavalac@uanl.mx</a>
+                            <h3 class="font-bodoni text-uanl-text text-lg">8329-4000 ext. 6693</h3>
+                        </div>
+
+                        <div class="leading-[1.2]">
+                            <h2 class="font-arial-black text-uanl-blue text-xl">Portal Web Casa Universitaria del Libro</h2>
+                            <h2 class="font-bodoni text-uanl-text text-xl font-bold">Martha Adriana Flores Carrillo</h2>
+                            <a href="mailto:adriana.floresc@uanl.mx" class="block font-bodoni text-uanl-gold text-lg hover:underline">adriana.floresc@uanl.mx</a>
+                        </div>
+
+                    </div>
+                </article>
+
+                <aside class="w-full lg:w-1/4 flex flex-col gap-8 h-fit sticky top-24">
+                    
+                    <div class="bg-gray-50 p-6 border-l-4 border-uanl-blue rounded-r-lg">
+                        <h2 class="text-center font-arial-black text-uanl-gold text-2xl mb-6 uppercase tracking-wider bg-uanl-blue p-2 rounded">Novedades</h2>
+                        
+                        <div class="space-y-8">
+                            <a href="https://tiendacasadellibro.uanl.mx/producto/mala-resina/" target="_blank" class="flex flex-col items-center text-center group">
+                                <img src="img/malaresina.jpg" alt="Mala Resina" class="w-32 shadow-md group-hover:scale-105 transition-transform duration-300 mb-2">
+                                <h3 class="font-bodoni text-uanl-text text-lg font-bold leading-tight">Mala resina</h3>
+                                <p class="font-bodoni text-uanl-text text-sm opacity-80">Paul Medrano</p>
+                                <p class="font-bodoni font-bold text-uanl-text mt-1">$180.00</p>
+                            </a>
+
+                            <a href="https://tiendacasadellibro.uanl.mx/producto/navegantes-no-7/" target="_blank" class="flex flex-col items-center text-center group">
+                                <img src="img/navegantes7.jpg" alt="Navegantes 7" class="w-32 shadow-md group-hover:scale-105 transition-transform duration-300 mb-2">
+                                <h3 class="font-bodoni text-uanl-text text-lg font-bold leading-tight">Navegantes 7</h3>
+                                <p class="font-bodoni font-bold text-uanl-text mt-1">$80.00</p>
+                            </a>
+
+                            <a href="https://tiendacasadellibro.uanl.mx/producto/amiga/" target="_blank" class="flex flex-col items-center text-center group">
+                                <img src="img/amiga.jpg" alt="Amiga" class="w-32 shadow-md group-hover:scale-105 transition-transform duration-300 mb-2">
+                                <h3 class="font-bodoni text-uanl-text text-lg font-bold leading-tight">Amiga</h3>
+                                <p class="font-bodoni text-uanl-text text-sm opacity-80">Malena Saito</p>
+                                <p class="font-bodoni font-bold text-uanl-text mt-1">$140.00</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="relative w-full h-48 rounded-xl overflow-hidden shadow-lg group">
+                        <img src="img/porticocasalibro1.jpg" alt="Pórtico Casa del Libro" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                            <a href="index.html#visita" class="bg-uanl-blue/90 text-white font-arial-black px-6 py-3 rounded-full hover:bg-uanl-gold hover:text-uanl-blue transition-all transform hover:-translate-y-1 shadow-lg border-2 border-transparent hover:border-uanl-blue">
+                                Planea tu visita
+                            </a>
+                        </div>
+                    </div>
+
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-uanl-text text-white py-12 border-t-4 border-uanl-gold mt-auto">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="font-bodoni text-2xl mb-4 text-white border-b border-gray-500 pb-2 inline-block">Contáctanos</h3>
+                <form class="space-y-3">
+                    <input type="email" placeholder="Tu correo electrónico" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold font-bodoni">
+                    <textarea maxlength="120" rows="3" placeholder="Mensaje" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold resize-none"></textarea>
+                    <button type="button" class="bg-uanl-blue text-white px-4 py-1 rounded hover:bg-uanl-gold hover:text-uanl-blue transition font-arial-black text-sm">ENVIAR</button>
+                </form>
+            </div>
+            <div class="text-center flex flex-col justify-center items-center font-bodoni space-y-2">
+                <p class="text-lg font-bold">Casa Universitaria del Libro UANL</p>
+                <p>Padre Mier 909 Pte. esquina con Vallarta.</p>
+                <p>Monterrey, Nuevo León.</p>
+                <p class="text-uanl-gold font-bold mt-2">81 8329 4111</p>
+            </div>
+            <div class="flex items-center justify-center md:justify-end gap-6">
+                <a href="#" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-gray-500 text-xs font-arial-black">&copy; 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</div>
+    </footer>
+
+    <script>
+        // --- Header & Search Logic ---
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+            btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
+            menu.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => menu.classList.add('hidden')); });
+        }
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('hidden');
+            if(!searchBar.classList.contains('hidden')){ searchBar.querySelector('input').focus(); }
+        }
+    </script>
+</body>
+</html>
