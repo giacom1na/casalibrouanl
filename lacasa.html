@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Casa - Casa Universitaria del Libro UANL</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        uanl: { blue: '#004a87', gold: '#fccf0a', text: '#414143' }
+                    },
+                    fontFamily: {
+                        'arial-black': ['"Arial Black"', 'Gadget', 'sans-serif'],
+                        'bodoni': ['"Libre Bodoni"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .nav-item:hover .dropdown-menu { display: block; }
+        html { scroll-behavior: smooth; }
+        
+        /* Estilos para el acordeón */
+        .accordion-content {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .accordion-content.active {
+            opacity: 1;
+        }
+
+        /* Estilos para imágenes expandibles */
+        .zoomable {
+            cursor: zoom-in;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .zoomable:hover {
+            transform: scale(1.02);
+            filter: brightness(0.9);
+        }
+    </style>
+</head>
+<body class="bg-white text-uanl-text font-bodoni flex flex-col min-h-screen">
+
+    <header class="fixed top-0 w-full z-50 bg-uanl-blue shadow-md">
+        <div class="container mx-auto px-4 h-20 flex items-center justify-between lg:justify-center lg:gap-4 relative z-50 bg-uanl-blue">
+            <div class="flex-shrink-0 mr-8">
+                <a href="index.html" class="flex items-center">
+                    <img src="img/logocasauanl.svg" alt="Logo Casa Universitaria del Libro" class="h-16 w-auto"> 
+                </a>
+            </div>
+
+            <nav class="hidden lg:flex items-center space-x-6 font-arial-black text-white text-sm">
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>NOSOTROS <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-48 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="lacasa.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">LA CASA</a>
+                        <a href="#contacto" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">CONTACTO</a>
+                    </div>
+                </div>
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>EDITORIAL UNIVERSITARIA UANL <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-56 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="#" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">COLECCIONES EDITORIALES</a>
+                        <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">TIENDA</a>
+                    </div>
+                </div>
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="hover:text-uanl-gold transition-colors">UANLEER</a>
+                <a href="#noticias" class="hover:text-uanl-gold transition-colors">NOTICIAS</a>
+                <a href="#programas" class="hover:text-uanl-gold transition-colors">PROGRAMAS Y PROYECTOS</a>
+                <a href="#calendario" title="Calendario" class="text-lg hover:text-uanl-gold transition-colors"><i class="fa-regular fa-calendar-days"></i></a>
+                <button onclick="toggleSearch()" title="Buscar" class="text-lg hover:text-uanl-gold transition-colors focus:outline-none"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </nav>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden absolute top-20 left-0 w-full bg-uanl-blue border-t border-blue-800 shadow-xl overflow-y-auto max-h-screen pb-20 z-40">
+            <div class="flex flex-col p-6 space-y-4 font-arial-black text-white">
+                <div class="border-b border-blue-800 pb-2">
+                    <span class="text-uanl-gold text-sm mb-2 block">NOSOTROS</span>
+                    <a href="lacasa.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">LA CASA</a>
+                    <a href="#contacto" class="block py-2 pl-4 hover:bg-blue-900 rounded">CONTACTO</a>
+                </div>
+                <div class="border-b border-blue-800 pb-2">
+                    <span class="text-uanl-gold text-sm mb-2 block">EDITORIAL</span>
+                    <a href="#" class="block py-2 pl-4 hover:bg-blue-900 rounded">COLECCIONES</a>
+                    <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block py-2 pl-4 hover:bg-blue-900 rounded">TIENDA</a>
+                </div>
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="block py-2 hover:text-uanl-gold">UANLEER</a>
+                <a href="#noticias" class="block py-2 hover:text-uanl-gold">NOTICIAS</a>
+                <a href="#programas" class="block py-2 hover:text-uanl-gold">PROGRAMAS</a>
+            </div>
+        </div>
+
+        <div id="searchBar" class="hidden bg-white py-4 px-6 absolute w-full shadow-md z-30">
+            <input type="text" placeholder="Buscar palabras clave..." class="w-full border-b-2 border-uanl-blue p-2 outline-none text-uanl-text font-bodoni text-xl">
+        </div>
+    </header>
+
+    <main class="mt-20 flex-grow">
+        <div class="container mx-auto px-4 py-12">
+            <div class="flex flex-col lg:flex-row gap-12">
+                
+                <article class="w-full lg:w-3/4">
+                    
+                    <div class="flex flex-col md:flex-row gap-8 mb-12 bg-white">
+                        
+                        <div class="w-full md:w-1/3 relative h-64 md:h-auto overflow-hidden rounded-lg shadow-lg group flex-shrink-0">
+                             <div id="lacasa-slider" class="w-full h-full relative">
+                                <div class="casa-slide absolute inset-0 transition-opacity duration-700 opacity-100">
+                                    <img src="img/casalibrouanl1.jpg" alt="Casa del Libro Vista 1" class="w-full h-full object-cover">
+                                </div>
+                                <div class="casa-slide absolute inset-0 transition-opacity duration-700 opacity-0">
+                                    <img src="img/casalibrouanl2.jpg" alt="Casa del Libro Vista 2" class="w-full h-full object-cover">
+                                </div>
+                                <div class="casa-slide absolute inset-0 transition-opacity duration-700 opacity-0">
+                                    <img src="img/casalibrouanl.jpeg" alt="Casa del Libro Vista 3" class="w-full h-full object-cover">
+                                </div>
+                                
+                                <button onclick="prevCasaSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full focus:outline-none">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </button>
+                                <button onclick="nextCasaSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full focus:outline-none">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="w-full md:w-2/3">
+                            <h1 class="font-bodoni text-4xl text-uanl-blue mb-4 font-bold">La Casa</h1>
+                            <div class="font-bodoni text-uanl-text text-justify space-y-4 text-lg leading-relaxed">
+                                <p>
+                                    La Casa Universitaria del Libro UANL fue inaugurada el 10 de febrero del 2011 por el entonces rector Jesús Ancer Rodríguez y como Secretario de Extensión y Cultura el Mtro. Rogelio Villarreal y como director el Dr. José Garza Acuña, y es la sede de la Editorial Universitaria. Este apreciado centro cultural universitario, considerado monumento histórico por el Instituto Nacional de Antropología e Historia (INAH), se ubica en Padre Mier 909 Pte. esquina con Vallarta, en el Centro de Monterrey.
+                                </p>
+                                <p>
+                                    La Casa del Libro concentra la actividad de difusión y promoción de los materiales editoriales universitarios y constituye un recinto especializado en la producción editorial. Como centro cultural busca difundir la cultura, promover el fomento del libro, la lectura, la literatura, la creatividad e imaginación para, de esta manera, acercar a la gente a la producción intelectual y artística de la universidad e incrementar el “conocimiento y la sensibilidad como armas para una comunidad exenta de agresiones, cercana a la paz y el diálogo”.
+                                </p>
+                                <p>
+                                    En nuestra librería podrás conocer y adquirir los libros de la Editorial Universitaria de la UANL. Ahí encontrarás una buena muestra del trabajo literario de la región y el país; libros de historia, estudios culturales, crónicas y otros temas, acompañando siempre a los trabajos de investigación de nuestros maestros y científicos universitarios. Además constantemente realizamos obras en coedición con prestigiosas editoriales, para acercar nuevas autorías y perspectivas a los lectores.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 bg-white">
+                        
+                        <div class="rounded-xl overflow-hidden shadow-sm">
+                            <button class="w-full bg-uanl-gold text-uanl-text font-arial-black text-xl p-4 flex justify-between items-center hover:brightness-105 transition-all focus:outline-none" onclick="toggleAccordion('historia')">
+                                <span>Historia</span>
+                                <i id="icon-historia" class="fa-solid fa-chevron-down transition-transform duration-300"></i>
+                            </button>
+                            <div id="content-historia" class="accordion-content bg-uanl-gold/50">
+                                <div class="p-6 text-uanl-text font-bodoni text-lg space-y-4 text-justify border-t border-black/10">
+                                    <p>El edificio fue erigido en 1924 para el matrimonio Martínez O’Dowd, conformado por Don Refugio Martínez Elizondo —comerciante de abarrotes al mayoreo— y Doña María Teresa O’Dowd Abascal, hija de Patricio O’Dowd, comerciante y pequeño industrial originario de Irlanda.</p>
+                                    <p>A través de los años se le dio múltiples usos a la construcción, que cubrieron tanto necesidades de hogar como de oficinas. Entre ellos, fue sede de la Cámara Nacional de Comercio (CANACO) y albergó una firma de diseño gráfico llamada Tarín y Contreras a mediados de los noventa.</p>
+                                    <p>Dada su relevancia arquitectónica, el inmueble fue catalogado como Monumento Histórico por el Instituto Nacional de Antropología e Historia (INAH). Su valor patrimonial se ratificó cuando la Universidad Autónoma de Nuevo León decidió transformar sus habitaciones y jardines en un espacio dedicado a la promoción de la lectura, el arte y la cultura en el corazón de Monterrey, al establecerlo como la sede oficial de la Editorial Universitaria. Así, abrió sus puertas al público como la Casa Universitaria del Libro UANL en febrero de 2011.</p>
+                                    <p>En 2020, la ciudadanía y las autoridades culturales del estado reconocieron la Casa como una de las "7 Maravillas Históricas de Nuevo León".</p>
+                                    <div class="mt-4">
+                                        <img src="img/casauanlpasado.jpg" alt="Historia de la casa" class="w-full rounded shadow-lg zoomable" onclick="openLightbox(this.src)">
+                                        <p class="text-xs text-center mt-2 opacity-70 italic">(Clic para expandir)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rounded-xl overflow-hidden shadow-sm">
+                            <button class="w-full bg-uanl-gold text-uanl-text font-arial-black text-xl p-4 flex justify-between items-center hover:brightness-105 transition-all focus:outline-none" onclick="toggleAccordion('arquitectura')">
+                                <span>Arquitectura</span>
+                                <i id="icon-arquitectura" class="fa-solid fa-chevron-down transition-transform duration-300"></i>
+                            </button>
+                            <div id="content-arquitectura" class="accordion-content bg-uanl-gold/50">
+                                <div class="p-6 text-uanl-text font-bodoni text-lg space-y-4 text-justify border-t border-black/10">
+                                    <p>La casa fue diseñada por el arquitecto e ingeniero Eduardo Daniel Belden, egresado del Instituto Tecnológico de Massachusetts, quien realizó obras como el edificio de la XEW, los silos de la Galletera Mexicana y el Hospital Universitario en Monterrey, entre otros. Belden también fue director de la Facultad de Arquitectura de la Universidad de Nuevo León —aún no era autónoma— hasta su muerte en 1963.</p>
+                                    <p>La casa tiene un diseño “extraño” que en Estados Unidos era conocido como Queen Anne Style, es decir, “Estilo Reina Ana”. En Monterrey se le denominaba como “chalet” y se caracterizaba por ser una casa sin patio central, pero con un gran jardín alrededor de la construcción. Tiene techumbres inclinadas cubiertas con pizarra, tejamanil o lámina de metal, y en el costado posee un torreoncillo en forma de cono que puede funcionar como mirador. Está construida en ladrillo y concreto armado, además cuenta con un semisótano.</p>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                        <img src="img/candelabrocasa.jpg" alt="Detalle candelabro" class="w-full h-64 object-cover rounded shadow-lg zoomable" onclick="openLightbox(this.src)">
+                                        <img src="img/mosaicocasa.jpg" alt="Detalle mosaico" class="w-full h-64 object-cover rounded shadow-lg zoomable" onclick="openLightbox(this.src)">
+                                    </div>
+                                    <p class="text-xs text-center mt-1 opacity-70 italic">(Clic para expandir imágenes)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rounded-xl overflow-hidden shadow-sm">
+                            <button class="w-full bg-uanl-gold text-uanl-text font-arial-black text-xl p-4 flex justify-between items-center hover:brightness-105 transition-all focus:outline-none" onclick="toggleAccordion('espacios')">
+                                <span>Nuestros espacios</span>
+                                <i id="icon-espacios" class="fa-solid fa-chevron-down transition-transform duration-300"></i>
+                            </button>
+                            <div id="content-espacios" class="accordion-content bg-uanl-gold/50">
+                                <div class="p-6 text-uanl-text font-bodoni text-lg space-y-4 text-justify border-t border-black/10">
+                                    <p>En la planta principal se localiza la recepción, la librería —en la que suelen montarse exposiciones temporales—, la Sala de Lectura Carmen Alardín y un pórtico cómodo para leer y charlar. En los pisos superiores se encuentran las áreas administrativas y editoriales de la Editorial Universitaria, antes Publicaciones de la UANL.</p>
+                                    <p>En el exterior de la casa se encuentra el Foro al aire libre, espacio para presentaciones editoriales y espectáculos.</p>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                                        <img src="img/escalerascasalibro.jpg" alt="Escaleras" class="w-full h-48 object-cover rounded shadow-lg zoomable" onclick="openLightbox(this.src)">
+                                        <img src="img/porticocasalibro.jpg" alt="Pórtico" class="w-full h-48 object-cover rounded shadow-lg zoomable" onclick="openLightbox(this.src)">
+                                        <img src="img/libreria-casadellibro1.jpg" alt="Librería" class="w-full h-48 object-cover rounded shadow-lg zoomable" onclick="openLightbox(this.src)">
+                                    </div>
+                                    <p class="text-xs text-center mt-1 opacity-70 italic">(Clic para expandir imágenes)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </article>
+
+                <aside class="w-full lg:w-1/4 bg-gray-50 p-4 border-l-4 border-uanl-blue rounded-r-lg h-fit sticky top-24">
+                    <h2 class="text-uanl-blue font-arial-black text-lg mb-6 border-b pb-2 text-center lg:text-left">Próximos eventos</h2>
+                    <div class="space-y-6">
+                        <div class="flex flex-row lg:flex-col xl:flex-row gap-3 items-center lg:items-start">
+                            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=100&h=100" class="w-16 h-16 object-cover rounded shadow flex-shrink-0">
+                            <div><h3 class="font-bodoni font-bold text-sm text-uanl-text">Presentación: Poesía Viva</h3><p class="text-xs font-bodoni text-gray-600 line-clamp-2">Lectura con autores locales.</p><span class="text-[10px] font-bold text-uanl-blue mt-1 block">18:00 HRS</span></div>
+                        </div>
+                        <div class="flex flex-row lg:flex-col xl:flex-row gap-3 items-center lg:items-start">
+                            <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&q=80&w=100&h=100" class="w-16 h-16 object-cover rounded shadow flex-shrink-0">
+                            <div><h3 class="font-bodoni font-bold text-sm text-uanl-text">Taller de Escritura</h3><p class="text-xs font-bodoni text-gray-600 line-clamp-2">Curso intensivo.</p><span class="text-[10px] font-bold text-uanl-blue mt-1 block">10:00 HRS</span></div>
+                        </div>
+                        <div class="flex flex-row lg:flex-col xl:flex-row gap-3 items-center lg:items-start">
+                            <img src="https://images.unsplash.com/photo-1460518451285-97b6aa326961?auto=format&fit=crop&q=80&w=100&h=100" class="w-16 h-16 object-cover rounded shadow flex-shrink-0">
+                            <div><h3 class="font-bodoni font-bold text-sm text-uanl-text">Feria del Libro</h3><p class="text-xs font-bodoni text-gray-600 line-clamp-2">Grandes descuentos.</p><span class="text-[10px] font-bold text-uanl-blue mt-1 block">12:00 HRS</span></div>
+                        </div>
+                    </div>
+                    <div class="mt-8 text-center lg:text-right"><a href="#noticias" class="font-arial-black text-xs text-uanl-blue hover:text-uanl-gold transition-colors inline-flex items-center gap-2">Ir al calendario <i class="fa-solid fa-arrow-right"></i></a></div>
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-uanl-text text-white py-12 border-t-4 border-uanl-gold mt-auto">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="font-bodoni text-2xl mb-4 text-white border-b border-gray-500 pb-2 inline-block">Contáctanos</h3>
+                <form class="space-y-3">
+                    <input type="email" placeholder="Tu correo electrónico" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold font-bodoni">
+                    <textarea maxlength="120" rows="3" placeholder="Mensaje" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold resize-none"></textarea>
+                    <button type="button" class="bg-uanl-blue text-white px-4 py-1 rounded hover:bg-uanl-gold hover:text-uanl-blue transition font-arial-black text-sm">ENVIAR</button>
+                </form>
+            </div>
+            <div class="text-center flex flex-col justify-center items-center font-bodoni space-y-2">
+                <p class="text-lg font-bold">Casa Universitaria del Libro UANL</p>
+                <p>Padre Mier 909 Pte. esquina con Vallarta.</p>
+                <p>Monterrey, Nuevo León.</p>
+                <p class="text-uanl-gold font-bold mt-2">81 8329 4111</p>
+            </div>
+            <div class="flex items-center justify-center md:justify-end gap-6">
+                <a href="#" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-gray-500 text-xs font-arial-black">&copy; 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</div>
+    </footer>
+
+    <div id="surveyModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black bg-opacity-75 p-4 backdrop-blur-sm transition-opacity duration-300">
+        <div class="bg-white rounded-lg relative w-full max-w-4xl h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+            <button onclick="toggleSurvey()" class="absolute top-2 right-4 text-uanl-text hover:text-red-600 text-4xl font-bold z-10 focus:outline-none">&times;</button>
+            <div class="w-full h-full bg-gray-100">
+                <iframe width="640px" height="480px" src="https://forms.office.com/Pages/ResponsePage.aspx?id=EZDKymp73kSGHwlaLKiDt0Qd9ccEaKJBhjFKsMcTQ31UQjhRUzdZSU81MEVYU0VIWlhKUlJBUjhaRi4u&embed=true" frameborder="0" marginwidth="0" marginheight="0" style="border: none; width:100%; height:100%;" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen> </iframe>
+            </div>
+        </div>
+    </div>
+
+    <div id="lightbox" class="fixed inset-0 z-[70] hidden bg-black/95 flex items-center justify-center p-4 transition-opacity duration-300" onclick="closeLightbox()">
+        <div class="relative max-w-5xl max-h-screen">
+            <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] object-contain rounded shadow-2xl">
+            <button class="absolute -top-12 right-0 text-white text-4xl hover:text-uanl-gold focus:outline-none" onclick="closeLightbox()">&times;</button>
+            <p class="text-white text-center mt-2 text-sm font-arial-black">Clic fuera para cerrar</p>
+        </div>
+    </div>
+
+    <script>
+        // --- Header & Search Logic ---
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+            btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
+            menu.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => menu.classList.add('hidden')); });
+        }
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('hidden');
+            if(!searchBar.classList.contains('hidden')){ searchBar.querySelector('input').focus(); }
+        }
+
+        // --- Survey Modal Logic ---
+        function toggleSurvey() {
+            const modal = document.getElementById('surveyModal');
+            modal.classList.toggle('hidden');
+        }
+        document.getElementById('surveyModal').addEventListener('click', function(e) {
+            if (e.target === this) toggleSurvey();
+        });
+
+        // --- LIGHTBOX Logic ---
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lightbox.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; 
+        }
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.add('hidden');
+            document.body.style.overflow = ''; 
+        }
+
+        // --- Carrusel "La Casa" Logic ---
+        let casaIndex = 0;
+        const casaSlides = document.querySelectorAll('#lacasa-slider .casa-slide');
+        const totalCasaSlides = casaSlides.length;
+        function updateCasaSlide() {
+            casaSlides.forEach((slide, index) => {
+                slide.style.opacity = index === casaIndex ? '1' : '0';
+            });
+        }
+        function nextCasaSlide() { casaIndex = (casaIndex + 1) % totalCasaSlides; updateCasaSlide(); }
+        function prevCasaSlide() { casaIndex = (casaIndex - 1 + totalCasaSlides) % totalCasaSlides; updateCasaSlide(); }
+        let casaInterval = setInterval(nextCasaSlide, 5000);
+
+        // --- Accordion Logic ---
+        function toggleAccordion(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                content.classList.remove('active');
+                icon.style.transform = "rotate(0deg)";
+            } else {
+                content.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + 500 + "px"; 
+                icon.style.transform = "rotate(180deg)";
+            }
+        }
+    </script>
+</body>
+</html>
