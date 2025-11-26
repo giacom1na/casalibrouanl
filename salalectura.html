@@ -32,17 +32,6 @@
     <style>
         .nav-item:hover .dropdown-menu { display: block; }
         html { scroll-behavior: smooth; }
-
-        /* Estilos para el acordeón */
-        .accordion-content {
-            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-        }
-        .accordion-content.active {
-            opacity: 1;
-        }
     </style>
 </head>
 <body class="bg-white text-uanl-text font-bodoni flex flex-col min-h-screen">
@@ -156,51 +145,44 @@
                             </div>
                         </div>
 
-                        <div class="w-full xl:w-1/2 bg-uanl-blue rounded-xl overflow-hidden shadow-lg text-white h-fit">
+                        <div class="w-full xl:w-1/2 bg-uanl-blue rounded-xl overflow-hidden shadow-lg text-white h-fit p-6">
                             
-                            <button onclick="toggleAccordion('indicaciones')" class="w-full p-6 flex justify-between items-center focus:outline-none hover:bg-blue-900 transition-colors">
-                                <h3 class="font-arial-black text-center xl:text-left text-xl">Indicaciones a seguir en tu visita</h3>
-                                <i id="icon-indicaciones" class="fa-solid fa-chevron-down transition-transform duration-300"></i>
-                            </button>
+                            <h3 class="font-arial-black text-center xl:text-left text-xl mb-4 border-b border-white/30 pb-2">Indicaciones a seguir en tu visita</h3>
 
-                            <div id="content-indicaciones" class="accordion-content">
-                                <div class="px-6 pb-6 border-t border-white/20 pt-4">
-                                    <ul class="font-bodoni text-sm space-y-3 text-justify list-none">
-                                        <li class="flex gap-2">
-                                            <span class="font-bold text-uanl-gold">1.</span> 
-                                            <span>Debes registrar tu entrada y salida en la recepción de la Casa Universitaria del Libro.</span>
-                                        </li>
-                                        <li class="flex gap-2">
-                                            <span class="font-bold text-uanl-gold">2.</span> 
-                                            <span>Deposita en paquetería tus portafolios, bolsas, mochilas, etcétera.</span>
-                                        </li>
-                                        <li class="flex gap-2">
-                                            <span class="font-bold text-uanl-gold">3.</span> 
-                                            <span>Está prohibido introducir bebidas o alimentos.</span>
-                                        </li>
-                                        <li class="flex gap-2">
-                                            <span class="font-bold text-uanl-gold">4.</span> 
-                                            <span>Los libros y las revistas deben permanecer en la Sala de Lectura. No hay servicio de préstamo a domicilio.</span>
-                                        </li>
-                                        <li class="flex gap-2">
-                                            <span class="font-bold text-uanl-gold">5.</span> 
-                                            <span>Cuida las instalaciones así como los libros y las revistas. Este material es para consulta por parte de todos, no rayes, mutiles o manches sus páginas.</span>
-                                        </li>
-                                        <li class="flex gap-2">
-                                            <span class="font-bold text-uanl-gold">6.</span> 
-                                            <span>Recuerda mantener un ambiente de silencio y orden, evitando distraer a los demás visitantes.</span>
-                                        </li>
-                                        <li class="flex gap-2">
-                                            <span class="font-bold text-uanl-gold">7.</span> 
-                                            <span>Los niños y niñas deben estar acompañados por un adulto.</span>
-                                        </li>
-                                        <li class="flex gap-2">
-                                            <span class="font-bold text-uanl-gold">8.</span> 
-                                            <span>Respeta los espacios de la Casa que no estén abiertos al público. Estamos trabajando para crear más libros.</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <ul class="font-bodoni text-sm space-y-3 text-justify list-none">
+                                <li class="flex gap-2">
+                                    <span class="font-bold text-uanl-gold">1.</span> 
+                                    <span>Debes registrar tu entrada y salida en la recepción de la Casa Universitaria del Libro.</span>
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="font-bold text-uanl-gold">2.</span> 
+                                    <span>Deposita en paquetería tus portafolios, bolsas, mochilas, etcétera.</span>
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="font-bold text-uanl-gold">3.</span> 
+                                    <span>Está prohibido introducir bebidas o alimentos.</span>
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="font-bold text-uanl-gold">4.</span> 
+                                    <span>Los libros y las revistas deben permanecer en la Sala de Lectura. No hay servicio de préstamo a domicilio.</span>
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="font-bold text-uanl-gold">5.</span> 
+                                    <span>Cuida las instalaciones así como los libros y las revistas. Este material es para consulta por parte de todos, no rayes, mutiles o manches sus páginas.</span>
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="font-bold text-uanl-gold">6.</span> 
+                                    <span>Recuerda mantener un ambiente de silencio y orden, evitando distraer a los demás visitantes.</span>
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="font-bold text-uanl-gold">7.</span> 
+                                    <span>Los niños y niñas deben estar acompañados por un adulto.</span>
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="font-bold text-uanl-gold">8.</span> 
+                                    <span>Respeta los espacios de la Casa que no estén abiertos al público. Estamos trabajando para crear más libros.</span>
+                                </li>
+                            </ul>
                         </div>
 
                     </div>
@@ -228,11 +210,12 @@
                 <p class="text-uanl-gold font-bold mt-2">81 8329 4111</p>
             </div>
             <div class="flex items-center justify-center md:justify-end gap-6">
-                <a href="#" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="https://www.facebook.com/CasaLibroUANL/?locale=es_LA" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.instagram.com/casadellibrouanl/?hl=es" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@casalibrouanl" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-tiktok"></i></a>
             </div>
         </div>
+
         <div class="text-center mt-8 text-gray-500 text-xs font-arial-black">&copy; 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</div>
     </footer>
 
@@ -267,24 +250,6 @@
         document.getElementById('surveyModal').addEventListener('click', function(e) {
             if (e.target === this) toggleSurvey();
         });
-
-        // --- Accordion Logic (NUEVO) ---
-        function toggleAccordion(id) {
-            const content = document.getElementById(`content-${id}`);
-            const icon = document.getElementById(`icon-${id}`);
-            
-            if (content.style.maxHeight) {
-                // Cerrar
-                content.style.maxHeight = null;
-                content.classList.remove('active');
-                icon.style.transform = "rotate(0deg)";
-            } else {
-                // Abrir
-                content.classList.add('active');
-                content.style.maxHeight = content.scrollHeight + "px";
-                icon.style.transform = "rotate(180deg)";
-            }
-        }
     </script>
 </body>
 </html>
