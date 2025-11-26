@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala de Lectura Carmen Alardín - Casa Universitaria del Libro UANL</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        uanl: { blue: '#004a87', gold: '#fccf0a', text: '#414143' }
+                    },
+                    fontFamily: {
+                        'arial-black': ['"Arial Black"', 'Gadget', 'sans-serif'],
+                        'bodoni': ['"Libre Bodoni"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .nav-item:hover .dropdown-menu { display: block; }
+        html { scroll-behavior: smooth; }
+
+        /* Estilos para el acordeón */
+        .accordion-content {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .accordion-content.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-white text-uanl-text font-bodoni flex flex-col min-h-screen">
+
+    <header class="fixed top-0 w-full z-50 bg-uanl-blue shadow-md">
+        <div class="container mx-auto px-4 h-20 flex items-center justify-between lg:justify-center lg:gap-4 relative z-50 bg-uanl-blue">
+            <div class="flex-shrink-0 mr-8">
+                <a href="index.html" class="flex items-center">
+                    <img src="img/logocasauanl.svg" alt="Logo Casa Universitaria del Libro" class="h-16 w-auto"> 
+                </a>
+            </div>
+
+            <nav class="hidden lg:flex items-center space-x-6 font-arial-black text-white text-sm">
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>NOSOTROS <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-80 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="lacasa.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">LA CASA</a>
+                        <a href="salalectura.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">SALA DE LECTURA CARMEN ALARDÍN</a>
+                        <a href="contacto.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">CONTACTO</a>
+                    </div>
+                </div>
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>EDITORIAL UNIVERSITARIA UANL <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-56 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="#" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">COLECCIONES EDITORIALES</a>
+                        <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">TIENDA</a>
+                    </div>
+                </div>
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="hover:text-uanl-gold transition-colors">UANLEER</a>
+                <a href="#noticias" class="hover:text-uanl-gold transition-colors">NOTICIAS</a>
+                <a href="#programas" class="hover:text-uanl-gold transition-colors">PROGRAMAS Y PROYECTOS</a>
+                <a href="#calendario" title="Calendario" class="text-lg hover:text-uanl-gold transition-colors"><i class="fa-regular fa-calendar-days"></i></a>
+                <button onclick="toggleSearch()" title="Buscar" class="text-lg hover:text-uanl-gold transition-colors focus:outline-none"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </nav>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden absolute top-20 left-0 w-full bg-uanl-blue border-t border-blue-800 shadow-xl overflow-y-auto max-h-screen pb-20 z-40">
+            <div class="flex flex-col p-6 space-y-4 font-arial-black text-white">
+                <div class="border-b border-blue-800 pb-2">
+                    <span class="text-uanl-gold text-sm mb-2 block">NOSOTROS</span>
+                    <a href="lacasa.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">LA CASA</a>
+                    <a href="salalectura.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">SALA DE LECTURA CARMEN ALARDÍN</a>
+                    <a href="contacto.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">CONTACTO</a>
+                </div>
+                <div class="border-b border-blue-800 pb-2">
+                    <span class="text-uanl-gold text-sm mb-2 block">EDITORIAL</span>
+                    <a href="#" class="block py-2 pl-4 hover:bg-blue-900 rounded">COLECCIONES</a>
+                    <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block py-2 pl-4 hover:bg-blue-900 rounded">TIENDA</a>
+                </div>
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="block py-2 hover:text-uanl-gold">UANLEER</a>
+                <a href="#noticias" class="block py-2 hover:text-uanl-gold">NOTICIAS</a>
+                <a href="#programas" class="block py-2 hover:text-uanl-gold">PROGRAMAS</a>
+            </div>
+        </div>
+
+        <div id="searchBar" class="hidden bg-white py-4 px-6 absolute w-full shadow-md z-30">
+            <input type="text" placeholder="Buscar palabras clave..." class="w-full border-b-2 border-uanl-blue p-2 outline-none text-uanl-text font-bodoni text-xl">
+        </div>
+    </header>
+
+    <main class="mt-20 flex-grow">
+        
+        <div class="w-full h-64 md:h-80 overflow-hidden">
+            <img src="img/saladelecturacasalibro.jpg" alt="Sala de Lectura Carmen Alardín" class="w-full h-full object-cover object-center">
+        </div>
+
+        <div class="container mx-auto px-4 py-12">
+            <div class="flex flex-col lg:flex-row gap-12">
+                
+                <aside class="w-full lg:w-1/4 flex flex-col items-center text-center border-r border-gray-200 pr-0 lg:pr-8">
+                    <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-uanl-blue mb-6 shadow-lg">
+                        <img src="img/carmenalardin.jpg" alt="Carmen Alardín" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <h1 class="font-bodoni text-uanl-blue text-2xl font-bold mb-1">Carmen Alardín</h1>
+                    <h2 class="font-bodoni text-uanl-blue text-xl italic mb-6">(1933-2014)</h2>
+                    
+                    <div class="text-justify font-bodoni text-uanl-text text-sm space-y-4 leading-relaxed">
+                        <p>Residió en Monterrey y en la Ciudad de México. Licenciada en Letras Alemanas con Maestría en Letras Mexicanas por la UNAM. Es autora de más de una docena de libros, el primero de los cuales lo publicó a los 16 años.</p>
+                        <p>Entre sus obras destacadas se encuentran <i>Pórtico labriego</i> (1953), <i>No pude detener los elefantes</i> (1971) y <i>Entreacto</i> (1982). En 1984 obtuvo el Premio Xavier Villaurrutia con <i>La violencia del otoño</i>.</p>
+                        <p>El estado de Nuevo León le otorgó la Medalla al Mérito Cívico en 1989 por su labor altruista en la difusión de la literatura y recibió el Premio a las Artes de la Universidad Autónoma de Nuevo León en 1999.</p>
+                        <p>La UANL además publicó su antología <i>Para que las estrellas te recuerden</i> (2013) y el libro de poemas inéditos <i>La caída del ángel</i> (2014). En 2004 se instituyó el Premio Regional de Poesía Carmen Alardín que en 2015 se convirtió en certamen nacional.</p>
+                    </div>
+                </aside>
+
+                <article class="w-full lg:w-3/4">
+                    
+                    <div class="mb-12">
+                        <h1 class="font-arial-black text-uanl-gold text-4xl mb-2">Sala de lectura Carmen Alardín</h1>
+                        <h2 class="font-bodoni text-uanl-gold text-2xl italic mb-6">Un espacio para la lectura en la Casa</h2>
+                        
+                        <div class="font-bodoni text-uanl-text text-lg space-y-4 text-justify">
+                            <p>Este es un espacio dedicado a la lectura, la escritura, la imaginación y al pensamiento. Contiene una selección del acervo publicado por la Dirección de Editorial Universitaria organizada en diferentes temas y géneros. La Sala está dedicada a Carmen Alardín (1933-2014), una de las voces poéticas más sólidas de la literatura mexicana. Siempre cercana a nuestra Máxima Casa de Estudios, fungió como Directora de la revista Armas y Letras de 1996 a 2000.</p>
+                            <p>Esta sala está ubicada en la planta baja de la Casa de Padre Mier y Vallarta. Es un espacio abierto de lunes a viernes de las 10am a las 6pm para la consulta de nuestro acervo, reuniones de clubes de lectura y otras actividades culturales. Contáctanos para agendar tus visitas grupales.</p>
+                            <p>
+                                Consulta el listado de nuestro acervo en este 
+                                <a href="https://editorialuniversitaria.uanl.mx/wp-content/uploads/2018/03/Sala-de-Lectura-Carmen-Alardin-7-marz-18-general_r2.pdf" target="_blank" class="text-uanl-gold font-bold hover:underline">archivo PDF</a>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col xl:flex-row gap-8 items-start">
+                        
+                        <div class="w-full xl:w-1/2">
+                            <div class="aspect-w-16 aspect-h-9 w-full shadow-lg rounded-lg overflow-hidden">
+                                <iframe class="w-full h-[350px]" src="https://www.youtube.com/embed/Dm68a1VyHCg" title="Sala Carmen Alardín" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
+
+                        <div class="w-full xl:w-1/2 bg-uanl-blue rounded-xl overflow-hidden shadow-lg text-white h-fit">
+                            
+                            <button onclick="toggleAccordion('indicaciones')" class="w-full p-6 flex justify-between items-center focus:outline-none hover:bg-blue-900 transition-colors">
+                                <h3 class="font-arial-black text-center xl:text-left text-xl">Indicaciones a seguir en tu visita</h3>
+                                <i id="icon-indicaciones" class="fa-solid fa-chevron-down transition-transform duration-300"></i>
+                            </button>
+
+                            <div id="content-indicaciones" class="accordion-content">
+                                <div class="px-6 pb-6 border-t border-white/20 pt-4">
+                                    <ul class="font-bodoni text-sm space-y-3 text-justify list-none">
+                                        <li class="flex gap-2">
+                                            <span class="font-bold text-uanl-gold">1.</span> 
+                                            <span>Debes registrar tu entrada y salida en la recepción de la Casa Universitaria del Libro.</span>
+                                        </li>
+                                        <li class="flex gap-2">
+                                            <span class="font-bold text-uanl-gold">2.</span> 
+                                            <span>Deposita en paquetería tus portafolios, bolsas, mochilas, etcétera.</span>
+                                        </li>
+                                        <li class="flex gap-2">
+                                            <span class="font-bold text-uanl-gold">3.</span> 
+                                            <span>Está prohibido introducir bebidas o alimentos.</span>
+                                        </li>
+                                        <li class="flex gap-2">
+                                            <span class="font-bold text-uanl-gold">4.</span> 
+                                            <span>Los libros y las revistas deben permanecer en la Sala de Lectura. No hay servicio de préstamo a domicilio.</span>
+                                        </li>
+                                        <li class="flex gap-2">
+                                            <span class="font-bold text-uanl-gold">5.</span> 
+                                            <span>Cuida las instalaciones así como los libros y las revistas. Este material es para consulta por parte de todos, no rayes, mutiles o manches sus páginas.</span>
+                                        </li>
+                                        <li class="flex gap-2">
+                                            <span class="font-bold text-uanl-gold">6.</span> 
+                                            <span>Recuerda mantener un ambiente de silencio y orden, evitando distraer a los demás visitantes.</span>
+                                        </li>
+                                        <li class="flex gap-2">
+                                            <span class="font-bold text-uanl-gold">7.</span> 
+                                            <span>Los niños y niñas deben estar acompañados por un adulto.</span>
+                                        </li>
+                                        <li class="flex gap-2">
+                                            <span class="font-bold text-uanl-gold">8.</span> 
+                                            <span>Respeta los espacios de la Casa que no estén abiertos al público. Estamos trabajando para crear más libros.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-uanl-text text-white py-12 border-t-4 border-uanl-gold">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="font-bodoni text-2xl mb-4 text-white border-b border-gray-500 pb-2 inline-block">Contáctanos</h3>
+                <form class="space-y-3">
+                    <input type="email" placeholder="Tu correo electrónico" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold font-bodoni">
+                    <textarea maxlength="120" rows="3" placeholder="Mensaje" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold resize-none"></textarea>
+                    <button type="button" class="bg-uanl-blue text-white px-4 py-1 rounded hover:bg-uanl-gold hover:text-uanl-blue transition font-arial-black text-sm">ENVIAR</button>
+                </form>
+            </div>
+            <div class="text-center flex flex-col justify-center items-center font-bodoni space-y-2">
+                <p class="text-lg font-bold">Casa Universitaria del Libro UANL</p>
+                <p>Padre Mier 909 Pte. esquina con Vallarta.</p>
+                <p>Monterrey, Nuevo León.</p>
+                <p class="text-uanl-gold font-bold mt-2">81 8329 4111</p>
+            </div>
+            <div class="flex items-center justify-center md:justify-end gap-6">
+                <a href="#" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-gray-500 text-xs font-arial-black">&copy; 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</div>
+    </footer>
+
+    <div id="surveyModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black bg-opacity-75 p-4 backdrop-blur-sm transition-opacity duration-300">
+        <div class="bg-white rounded-lg relative w-full max-w-4xl h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+            <button onclick="toggleSurvey()" class="absolute top-2 right-4 text-uanl-text hover:text-red-600 text-4xl font-bold z-10 focus:outline-none">&times;</button>
+            <div class="w-full h-full bg-gray-100">
+                <iframe width="640px" height="480px" src="https://forms.office.com/Pages/ResponsePage.aspx?id=EZDKymp73kSGHwlaLKiDt0Qd9ccEaKJBhjFKsMcTQ31UQjhRUzdZSU81MEVYU0VIWlhKUlJBUjhaRi4u&embed=true" frameborder="0" marginwidth="0" marginheight="0" style="border: none; width:100%; height:100%;" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen> </iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Header & Search Logic ---
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+            btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
+            menu.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => menu.classList.add('hidden')); });
+        }
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('hidden');
+            if(!searchBar.classList.contains('hidden')){ searchBar.querySelector('input').focus(); }
+        }
+
+        // --- Survey Modal Logic ---
+        function toggleSurvey() {
+            const modal = document.getElementById('surveyModal');
+            modal.classList.toggle('hidden');
+        }
+        document.getElementById('surveyModal').addEventListener('click', function(e) {
+            if (e.target === this) toggleSurvey();
+        });
+
+        // --- Accordion Logic (NUEVO) ---
+        function toggleAccordion(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            
+            if (content.style.maxHeight) {
+                // Cerrar
+                content.style.maxHeight = null;
+                content.classList.remove('active');
+                icon.style.transform = "rotate(0deg)";
+            } else {
+                // Abrir
+                content.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.style.transform = "rotate(180deg)";
+            }
+        }
+    </script>
+</body>
+</html>
