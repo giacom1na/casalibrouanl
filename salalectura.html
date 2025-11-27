@@ -9,7 +9,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -21,7 +21,7 @@
                         uanl: { blue: '#004a87', gold: '#fccf0a', text: '#414143' }
                     },
                     fontFamily: {
-                        'arial-black': ['"Arial Black"', 'Gadget', 'sans-serif'],
+                        'inter-black': ['"Inter"', 'sans-serif'], // Cambiado de arial-black a inter-black
                         'bodoni': ['"Libre Bodoni"', 'serif'],
                     }
                 }
@@ -44,7 +44,7 @@
                 </a>
             </div>
 
-            <nav class="hidden lg:flex items-center space-x-6 font-arial-black text-white text-sm">
+            <nav class="hidden lg:flex items-center space-x-6 font-inter-black text-white text-sm">
                 <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
                     <span>NOSOTROS <i class="fa-solid fa-caret-down ml-1"></i></span>
                     <div class="dropdown-menu absolute hidden left-0 top-full w-80 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
@@ -56,7 +56,7 @@
                 <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
                     <span>EDITORIAL UNIVERSITARIA UANL <i class="fa-solid fa-caret-down ml-1"></i></span>
                     <div class="dropdown-menu absolute hidden left-0 top-full w-56 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
-                        <a href="#" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">COLECCIONES EDITORIALES</a>
+                        <a href="colecciones.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">COLECCIONES EDITORIALES</a>
                         <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">TIENDA</a>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
         </div>
 
         <div id="mobile-menu" class="hidden lg:hidden absolute top-20 left-0 w-full bg-uanl-blue border-t border-blue-800 shadow-xl overflow-y-auto max-h-screen pb-20 z-40">
-            <div class="flex flex-col p-6 space-y-4 font-arial-black text-white">
+            <div class="flex flex-col p-6 space-y-4 font-inter-black text-white">
                 <div class="border-b border-blue-800 pb-2">
                     <span class="text-uanl-gold text-sm mb-2 block">NOSOTROS</span>
                     <a href="lacasa.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">LA CASA</a>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="border-b border-blue-800 pb-2">
                     <span class="text-uanl-gold text-sm mb-2 block">EDITORIAL</span>
-                    <a href="#" class="block py-2 pl-4 hover:bg-blue-900 rounded">COLECCIONES</a>
+                    <a href="colecciones.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">COLECCIONES</a>
                     <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block py-2 pl-4 hover:bg-blue-900 rounded">TIENDA</a>
                 </div>
                 <a href="https://uanleer.uanl.mx/" target="_blank" class="block py-2 hover:text-uanl-gold">UANLEER</a>
@@ -124,7 +124,7 @@
                 <article class="w-full lg:w-3/4">
                     
                     <div class="mb-12">
-                        <h1 class="font-arial-black text-uanl-gold text-4xl mb-2">Sala de Lectura Carmen Alardín</h1>
+                        <h1 class="font-inter-black text-uanl-gold text-4xl mb-2">Sala de Lectura Carmen Alardín</h1>
                         <h2 class="font-bodoni text-uanl-gold text-2xl italic mb-6">Un espacio para la lectura en la Casa</h2>
                         
                         <div class="font-bodoni text-uanl-text text-lg space-y-4 text-justify">
@@ -147,7 +147,7 @@
 
                         <div class="w-full xl:w-1/2 bg-uanl-blue rounded-xl overflow-hidden shadow-lg text-white h-fit p-6">
                             
-                            <h3 class="font-arial-black text-center xl:text-left text-xl mb-4 border-b border-white/30 pb-2">Indicaciones a seguir en tu visita</h3>
+                            <h3 class="font-inter-black text-center xl:text-left text-xl mb-4 border-b border-white/30 pb-2">Indicaciones a seguir en tu visita</h3>
 
                             <ul class="font-bodoni text-sm space-y-3 text-justify list-none">
                                 <li class="flex gap-2">
@@ -200,7 +200,7 @@
                 <form class="space-y-3">
                     <input type="email" placeholder="Tu correo electrónico" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold font-bodoni">
                     <textarea maxlength="120" rows="3" placeholder="Mensaje" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold resize-none"></textarea>
-                    <button type="button" class="bg-uanl-blue text-white px-4 py-1 rounded hover:bg-uanl-gold hover:text-uanl-blue transition font-arial-black text-sm">ENVIAR</button>
+                    <button type="button" class="bg-uanl-blue text-white px-4 py-1 rounded hover:bg-uanl-gold hover:text-uanl-blue transition font-inter-black text-sm">ENVIAR</button>
                 </form>
             </div>
             <div class="text-center flex flex-col justify-center items-center font-bodoni space-y-2">
@@ -216,7 +216,7 @@
             </div>
         </div>
 
-        <div class="text-center mt-8 text-gray-500 text-xs font-arial-black">&copy; 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</div>
+        <div class="text-center mt-8 text-gray-500 text-xs font-inter-black">&copy; 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</div>
     </footer>
 
     <div id="surveyModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black bg-opacity-75 p-4 backdrop-blur-sm transition-opacity duration-300">
