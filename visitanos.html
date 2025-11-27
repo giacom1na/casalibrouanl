@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planea tu visita - Casa Universitaria del Libro UANL</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        uanl: { blue: '#004a87', gold: '#fccf0a', text: '#414143' }
+                    },
+                    fontFamily: {
+                        'inter-black': ['"Inter"', 'sans-serif'],
+                        'bodoni': ['"Libre Bodoni"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .nav-item:hover .dropdown-menu { display: block; }
+        html { scroll-behavior: smooth; }
+        
+        /* Animación suave para el menú de compartir */
+        #shareMenu {
+            transition: all 0.2s ease-in-out;
+            transform-origin: top right;
+        }
+        #shareMenu.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+        #shareMenu:not(.hidden) {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="bg-white text-uanl-text font-bodoni flex flex-col min-h-screen">
+
+    <header class="fixed top-0 w-full z-50 bg-uanl-blue shadow-md">
+        <div class="container mx-auto px-4 h-20 flex items-center justify-between lg:justify-center lg:gap-4 relative z-50 bg-uanl-blue">
+            <div class="flex-shrink-0 mr-8">
+                <a href="index.html" class="flex items-center">
+                    <img src="img/logocasauanl.svg" alt="Logo Casa Universitaria del Libro" class="h-16 w-auto"> 
+                </a>
+            </div>
+
+            <nav class="hidden lg:flex items-center space-x-6 font-inter-black text-white text-sm">
+                
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>NOSOTROS <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-80 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="lacasa.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">LA CASA</a>
+                        <a href="salalectura.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">SALA DE LECTURA CARMEN ALARDÍN</a>
+                        <a href="contacto.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">CONTACTO</a>
+                    </div>
+                </div>
+
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>EDITORIAL UNIVERSITARIA UANL <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-56 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="colecciones.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">COLECCIONES EDITORIALES</a>
+                        <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">TIENDA</a>
+                    </div>
+                </div>
+
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="hover:text-uanl-gold transition-colors">UANLEER</a>
+                <a href="#noticias" class="hover:text-uanl-gold transition-colors">NOTICIAS</a>
+                <a href="#programas" class="hover:text-uanl-gold transition-colors">PROGRAMAS Y PROYECTOS</a>
+                <a href="#calendario" title="Calendario" class="text-lg hover:text-uanl-gold transition-colors"><i class="fa-regular fa-calendar-days"></i></a>
+                <button onclick="toggleSearch()" title="Buscar" class="text-lg hover:text-uanl-gold transition-colors focus:outline-none"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </nav>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden absolute top-20 left-0 w-full bg-uanl-blue border-t border-blue-800 shadow-xl overflow-y-auto max-h-screen pb-20 z-40">
+            <div class="flex flex-col p-6 space-y-4 font-inter-black text-white">
+                <div class="border-b border-blue-800 pb-2">
+                    <span class="text-uanl-gold text-sm mb-2 block">NOSOTROS</span>
+                    <a href="lacasa.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">LA CASA</a>
+                    <a href="salalectura.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">SALA DE LECTURA CARMEN ALARDÍN</a>
+                    <a href="contacto.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">CONTACTO</a>
+                </div>
+                <div class="border-b border-blue-800 pb-2">
+                    <span class="text-uanl-gold text-sm mb-2 block">EDITORIAL</span>
+                    <a href="colecciones.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">COLECCIONES</a>
+                    <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block py-2 pl-4 hover:bg-blue-900 rounded">TIENDA</a>
+                </div>
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="block py-2 hover:text-uanl-gold">UANLEER</a>
+                <a href="#noticias" class="block py-2 hover:text-uanl-gold">NOTICIAS</a>
+                <a href="#programas" class="block py-2 hover:text-uanl-gold">PROGRAMAS</a>
+            </div>
+        </div>
+
+        <div id="searchBar" class="hidden bg-white py-4 px-6 absolute w-full shadow-md z-30">
+            <input type="text" placeholder="Buscar palabras clave..." class="w-full border-b-2 border-uanl-blue p-2 outline-none text-uanl-text font-bodoni text-xl">
+        </div>
+    </header>
+
+    <main class="mt-20 flex-grow bg-white">
+        <div class="container mx-auto px-4 py-12">
+            <div class="flex flex-col lg:flex-row gap-12">
+                
+                <article class="w-full lg:w-3/4">
+                    
+                    <div class="flex items-center justify-between mb-8 border-b-4 border-uanl-gold pb-2">
+                        <h1 class="font-inter-black text-[#414143] text-4xl">Visítanos</h1>
+                        
+                        <div class="relative z-10">
+                            <button onclick="toggleShareMenu()" class="w-10 h-10 rounded-full bg-uanl-blue text-white hover:bg-uanl-gold hover:text-uanl-blue transition-all duration-300 flex items-center justify-center shadow-md focus:outline-none" title="Compartir">
+                                <i class="fa-solid fa-share-nodes"></i>
+                            </button>
+
+                            <div id="shareMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 p-2 font-bodoni text-sm">
+                                <button onclick="copyToClipboard()" class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded text-uanl-text flex items-center gap-2">
+                                    <i class="fa-regular fa-copy"></i> Copiar enlace
+                                </button>
+                                <a href="mailto:?subject=Visita%20la%20Casa%20Universitaria%20del%20Libro&body=Te%20invito%20a%20conocer%20la%20Casa%20Universitaria%20del%20Libro%20UANL.%20Mira%20la%20ubicaci%C3%B3n%20aqu%C3%AD:%20https://giacom1na.github.io/casalibrouanl/planeatuvisita.html" class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded text-uanl-text flex items-center gap-2">
+                                    <i class="fa-regular fa-envelope"></i> Enviar por correo
+                                </a>
+                                <a href="https://wa.me/?text=¡Vamos%20a%20la%20Casa%20Universitaria%20del%20Libro!%20Checa%20la%20ubicación:%20https://giacom1na.github.io/casalibrouanl/planeatuvisita.html" target="_blank" class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded text-uanl-text flex items-center gap-2">
+                                    <i class="fa-brands fa-whatsapp"></i> Enviar por WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full mb-8 shadow-lg rounded-lg overflow-hidden">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3596.0111930572907!2d-100.33106352460263!3d25.670923677409!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8662be1f74356edf%3A0xfe92f22060aa4ecd!2sCasa%20Universitaria%20del%20Libro!5e0!3m2!1ses!2smx!4v1764136323470!5m2!1ses!2smx" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+
+                    <div class="mb-8">
+                        <h2 class="font-inter-black text-[#004a87] text-2xl mb-2">Horario: Lunes a viernes de 10:00 am a 4:00 pm</h2>
+                        <h3 class="font-bodoni text-[#004a87] text-xl italic font-bold">Consulta horario de eventos y actividades en redes sociales</h3>
+                    </div>
+
+                    <div class="font-bodoni text-[#414143] text-lg text-justify space-y-4 leading-relaxed">
+                        <p>
+                            La Dirección de Editorial Universitaria tiene como sede la Casa Universitaria del Libro, ubicada en Padre Mier 909 (esquina con Vallarta) en la colonia Centro de Monterrey. La Casa está a un par de cuadras de la plaza del barrio de La Purísima.
+                        </p>
+                        <p>
+                            Es posible llegar a la Casa utilizando las rutas de camión: Ruta 4 Circunvalación – Galerías Monterrey, Ruta 400 Sector 3 – H. Zona – Mercado Juárez – Prepa 2, Ruta 20 (1) Zapata – Juárez, Ruta 20 (3) Clouthier – Juárez.
+                        </p>
+                        <p>
+                            Las estaciones del Metro más cercanas son Padre Mier y Fundadores.
+                        </p>
+                        <p>
+                            En las cercanías de la Casa puedes encontrar cafeterías, librerías, restaurantes, espacios teatrales y la Biblioteca Benjamín Franklin del Instituto Mexicano Norteamericano de Relaciones Culturales.
+                        </p>
+                    </div>
+
+                </article>
+
+                <aside class="w-full lg:w-1/4 flex flex-col gap-8 h-fit sticky top-24">
+                    
+                    <div class="bg-gray-50 p-4 border-l-4 border-uanl-blue rounded-r-lg">
+                        <h2 class="text-uanl-blue font-inter-black text-lg mb-6 border-b pb-2 text-center lg:text-left">Próximos eventos</h2>
+                        <div class="space-y-6">
+                            <div class="flex flex-row lg:flex-col xl:flex-row gap-3 items-center lg:items-start">
+                                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=100&h=100" class="w-16 h-16 object-cover rounded shadow flex-shrink-0">
+                                <div><h3 class="font-bodoni font-bold text-sm text-uanl-text">Presentación: Poesía Viva</h3><p class="text-xs font-bodoni text-gray-600 line-clamp-2">Lectura con autores locales.</p><span class="text-[10px] font-bold text-uanl-blue mt-1 block">18:00 HRS</span></div>
+                            </div>
+                            <div class="flex flex-row lg:flex-col xl:flex-row gap-3 items-center lg:items-start">
+                                <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&q=80&w=100&h=100" class="w-16 h-16 object-cover rounded shadow flex-shrink-0">
+                                <div><h3 class="font-bodoni font-bold text-sm text-uanl-text">Taller de Escritura</h3><p class="text-xs font-bodoni text-gray-600 line-clamp-2">Curso intensivo.</p><span class="text-[10px] font-bold text-uanl-blue mt-1 block">10:00 HRS</span></div>
+                            </div>
+                            <div class="flex flex-row lg:flex-col xl:flex-row gap-3 items-center lg:items-start">
+                                <img src="https://images.unsplash.com/photo-1460518451285-97b6aa326961?auto=format&fit=crop&q=80&w=100&h=100" class="w-16 h-16 object-cover rounded shadow flex-shrink-0">
+                                <div><h3 class="font-bodoni font-bold text-sm text-uanl-text">Feria del Libro</h3><p class="text-xs font-bodoni text-gray-600 line-clamp-2">Grandes descuentos.</p><span class="text-[10px] font-bold text-uanl-blue mt-1 block">12:00 HRS</span></div>
+                            </div>
+                        </div>
+                        <div class="mt-8 text-center lg:text-right"><a href="#noticias" class="font-inter-black text-xs text-uanl-blue hover:text-uanl-gold transition-colors inline-flex items-center gap-2">Ir al calendario <i class="fa-solid fa-arrow-right"></i></a></div>
+                    </div>
+
+                    <div class="relative w-full h-48 rounded-xl overflow-hidden shadow-lg group">
+                        <img src="img/librosuanl1.png" alt="Librería Casa Universitaria" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                            <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="bg-uanl-blue/90 text-white font-inter-black px-6 py-3 rounded-full hover:bg-uanl-gold hover:text-uanl-blue transition-all transform hover:-translate-y-1 shadow-lg border-2 border-transparent hover:border-uanl-blue">
+                                Tienda en línea
+                            </a>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-uanl-text text-white py-12 border-t-4 border-uanl-gold mt-auto">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="font-bodoni text-2xl mb-4 text-white border-b border-gray-500 pb-2 inline-block">Contáctanos</h3>
+                <form class="space-y-3">
+                    <input type="email" placeholder="Tu correo electrónico" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold font-bodoni">
+                    <textarea maxlength="120" rows="3" placeholder="Mensaje" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold resize-none"></textarea>
+                    <button type="button" class="bg-uanl-blue text-white px-4 py-1 rounded hover:bg-uanl-gold hover:text-uanl-blue transition font-inter-black text-sm">ENVIAR</button>
+                </form>
+            </div>
+            <div class="text-center flex flex-col justify-center items-center font-bodoni space-y-2">
+                <p class="text-lg font-bold">Casa Universitaria del Libro UANL</p>
+                <p>Padre Mier 909 Pte. esquina con Vallarta.</p>
+                <p>Monterrey, Nuevo León.</p>
+                <p class="text-uanl-gold font-bold mt-2">81 8329 4111</p>
+            </div>
+            <div class="flex items-center justify-center md:justify-end gap-6">
+                <a href="https://www.facebook.com/CasaLibroUANL/?locale=es_LA" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.instagram.com/casadellibrouanl/?hl=es" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@casalibrouanl" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+
+        <div class="text-center mt-8 text-gray-500 text-xs font-inter-black">© 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</div>
+    </footer>
+
+    <script>
+        // --- Header & Search Logic ---
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+            btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
+            menu.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => menu.classList.add('hidden')); });
+        }
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('hidden');
+            if(!searchBar.classList.contains('hidden')){ searchBar.querySelector('input').focus(); }
+        }
+
+        // --- Share Button Logic ---
+        function toggleShareMenu() {
+            const menu = document.getElementById('shareMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        async function copyToClipboard() {
+            try {
+                // Usamos la URL actual o la fija solicitada en el prompt
+                await navigator.clipboard.writeText('https://giacom1na.github.io/casalibrouanl/planeatuvisita.html');
+                alert('¡Enlace copiado al portapapeles!');
+                toggleShareMenu(); // Cerrar menú
+            } catch (err) {
+                console.error('Error al copiar: ', err);
+            }
+        }
+
+        // Cerrar menú al hacer clic fuera
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('shareMenu');
+            const button = event.target.closest('button');
+            
+            // Si el clic no fue en el botón de compartir ni dentro del menú, ocultar menú
+            if (!button || !button.getAttribute('onclick') === 'toggleShareMenu()') {
+                if (!menu.contains(event.target) && !event.target.closest('[onclick="toggleShareMenu()"]')) {
+                    menu.classList.add('hidden');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
