@@ -9,7 +9,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -21,7 +21,7 @@
                         uanl: { blue: '#004a87', gold: '#fccf0a', text: '#414143' }
                     },
                     fontFamily: {
-                        'arial-black': ['"Arial Black"', 'Gadget', 'sans-serif'],
+                        'inter-black': ['"Inter"', 'sans-serif'], // Cambiado de arial-black a inter-black
                         'bodoni': ['"Libre Bodoni"', 'serif'],
                     }
                 }
@@ -65,7 +65,7 @@
                 </a>
             </div>
 
-            <nav class="hidden lg:flex items-center space-x-6 font-arial-black text-white text-sm">
+            <nav class="hidden lg:flex items-center space-x-6 font-inter-black text-white text-sm">
                 <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
                     <span>NOSOTROS <i class="fa-solid fa-caret-down ml-1"></i></span>
                     <div class="dropdown-menu absolute hidden left-0 top-full w-80 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
@@ -94,7 +94,7 @@
         </div>
 
         <div id="mobile-menu" class="hidden lg:hidden absolute top-20 left-0 w-full bg-uanl-blue border-t border-blue-800 shadow-xl overflow-y-auto max-h-screen pb-20 z-40">
-            <div class="flex flex-col p-6 space-y-4 font-arial-black text-white">
+            <div class="flex flex-col p-6 space-y-4 font-inter-black text-white">
                 <div class="border-b border-blue-800 pb-2">
                     <span class="text-uanl-gold text-sm mb-2 block">NOSOTROS</span>
                     <a href="lacasa.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">LA CASA</a>
@@ -165,7 +165,7 @@
                     <div class="space-y-4 bg-white">
                         
                         <div class="rounded-xl overflow-hidden shadow-sm">
-                            <button class="w-full bg-uanl-gold text-uanl-text font-arial-black text-xl p-4 flex justify-between items-center hover:brightness-105 transition-all focus:outline-none" onclick="toggleAccordion('historia')">
+                            <button class="w-full bg-uanl-gold text-uanl-text font-inter-black text-xl p-4 flex justify-between items-center hover:brightness-105 transition-all focus:outline-none" onclick="toggleAccordion('historia')">
                                 <span>Historia</span>
                                 <i id="icon-historia" class="fa-solid fa-chevron-down transition-transform duration-300"></i>
                             </button>
@@ -184,7 +184,7 @@
                         </div>
 
                         <div class="rounded-xl overflow-hidden shadow-sm">
-                            <button class="w-full bg-uanl-gold text-uanl-text font-arial-black text-xl p-4 flex justify-between items-center hover:brightness-105 transition-all focus:outline-none" onclick="toggleAccordion('arquitectura')">
+                            <button class="w-full bg-uanl-gold text-uanl-text font-inter-black text-xl p-4 flex justify-between items-center hover:brightness-105 transition-all focus:outline-none" onclick="toggleAccordion('arquitectura')">
                                 <span>Arquitectura</span>
                                 <i id="icon-arquitectura" class="fa-solid fa-chevron-down transition-transform duration-300"></i>
                             </button>
@@ -202,7 +202,7 @@
                         </div>
 
                         <div class="rounded-xl overflow-hidden shadow-sm">
-                            <button class="w-full bg-uanl-gold text-uanl-text font-arial-black text-xl p-4 flex justify-between items-center hover:brightness-105 transition-all focus:outline-none" onclick="toggleAccordion('espacios')">
+                            <button class="w-full bg-uanl-gold text-uanl-text font-inter-black text-xl p-4 flex justify-between items-center hover:brightness-105 transition-all focus:outline-none" onclick="toggleAccordion('espacios')">
                                 <span>Nuestros espacios</span>
                                 <i id="icon-espacios" class="fa-solid fa-chevron-down transition-transform duration-300"></i>
                             </button>
@@ -224,7 +224,7 @@
                 </article>
 
                 <aside class="w-full lg:w-1/4 bg-gray-50 p-4 border-l-4 border-uanl-blue rounded-r-lg h-fit sticky top-24">
-                    <h2 class="text-uanl-blue font-arial-black text-lg mb-6 border-b pb-2 text-center lg:text-left">Próximos eventos</h2>
+                    <h2 class="text-uanl-blue font-inter-black text-lg mb-6 border-b pb-2 text-center lg:text-left">Próximos eventos</h2>
                     <div class="space-y-6">
                         <div class="flex flex-row lg:flex-col xl:flex-row gap-3 items-center lg:items-start">
                             <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=100&h=100" class="w-16 h-16 object-cover rounded shadow flex-shrink-0">
@@ -239,7 +239,7 @@
                             <div><h3 class="font-bodoni font-bold text-sm text-uanl-text">Feria del Libro</h3><p class="text-xs font-bodoni text-gray-600 line-clamp-2">Grandes descuentos.</p><span class="text-[10px] font-bold text-uanl-blue mt-1 block">12:00 HRS</span></div>
                         </div>
                     </div>
-                    <div class="mt-8 text-center lg:text-right"><a href="#noticias" class="font-arial-black text-xs text-uanl-blue hover:text-uanl-gold transition-colors inline-flex items-center gap-2">Ir al calendario <i class="fa-solid fa-arrow-right"></i></a></div>
+                    <div class="mt-8 text-center lg:text-right"><a href="#noticias" class="font-inter-black text-xs text-uanl-blue hover:text-uanl-gold transition-colors inline-flex items-center gap-2">Ir al calendario <i class="fa-solid fa-arrow-right"></i></a></div>
                 </aside>
 
             </div>
@@ -253,7 +253,7 @@
                 <form class="space-y-3">
                     <input type="email" placeholder="Tu correo electrónico" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold font-bodoni">
                     <textarea maxlength="120" rows="3" placeholder="Mensaje" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold resize-none"></textarea>
-                    <button type="button" class="bg-uanl-blue text-white px-4 py-1 rounded hover:bg-uanl-gold hover:text-uanl-blue transition font-arial-black text-sm">ENVIAR</button>
+                    <button type="button" class="bg-uanl-blue text-white px-4 py-1 rounded hover:bg-uanl-gold hover:text-uanl-blue transition font-inter-black text-sm">ENVIAR</button>
                 </form>
             </div>
             <div class="text-center flex flex-col justify-center items-center font-bodoni space-y-2">
@@ -269,7 +269,7 @@
             </div>
         </div>
 
-        <div class="text-center mt-8 text-gray-500 text-xs font-arial-black">&copy; 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</div>
+        <div class="text-center mt-8 text-gray-500 text-xs font-inter-black">&copy; 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</div>
     </footer>
 
     <div id="surveyModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black bg-opacity-75 p-4 backdrop-blur-sm transition-opacity duration-300">
@@ -285,7 +285,7 @@
         <div class="relative max-w-5xl max-h-screen">
             <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] object-contain rounded shadow-2xl">
             <button class="absolute -top-12 right-0 text-white text-4xl hover:text-uanl-gold focus:outline-none" onclick="closeLightbox()">&times;</button>
-            <p class="text-white text-center mt-2 text-sm font-arial-black">Clic fuera para cerrar</p>
+            <p class="text-white text-center mt-2 text-sm font-inter-black">Clic fuera para cerrar</p>
         </div>
     </div>
 
