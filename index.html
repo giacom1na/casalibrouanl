@@ -21,7 +21,7 @@
                         uanl: { blue: '#004a87', gold: '#fccf0a', text: '#414143' }
                     },
                     fontFamily: {
-                        'inter-black': ['"Inter"', 'sans-serif'], // Cambiado de arial-black a inter-black
+                        'inter-black': ['"Inter"', 'sans-serif'], 
                         'bodoni': ['"Libre Bodoni"', 'serif'],
                     }
                 }
@@ -146,11 +146,23 @@
         </section>
 
         <section class="container mx-auto px-4 py-12">
-            <div class="flex flex-col lg:flex-row gap-8">
-                <div class="w-full lg:w-2/3 flex flex-col md:flex-row gap-6 pr-0 lg:pr-12 items-center justify-center">
-                    <a href="lacasa.html" class="w-full md:w-1/2 h-40 bg-uanl-blue rounded-xl flex items-center justify-center text-white font-inter-black text-2xl hover:bg-opacity-90 transition shadow-lg text-center p-4">Conoce la Casa</a>
-                    <a href="visitanos.html" class="w-full md:w-1/2 h-40 bg-uanl-blue rounded-xl flex items-center justify-center text-white font-inter-black text-2xl hover:bg-opacity-90 transition shadow-lg text-center p-4">Planea tu visita</a>
+            <div class="flex flex-col lg:flex-row gap-8 items-stretch">
+                
+                <div class="w-full lg:w-2/3 flex flex-col justify-center gap-6 pr-0 lg:pr-12">
+                    
+                    <div class="flex flex-col md:flex-row gap-6 items-center justify-center w-full">
+                        <a href="lacasa.html" class="w-full md:w-1/2 h-40 bg-uanl-blue rounded-xl flex items-center justify-center text-white font-inter-black text-2xl hover:bg-opacity-90 transition shadow-lg text-center p-4">Conoce la Casa</a>
+                        <a href="visitanos.html" class="w-full md:w-1/2 h-40 bg-uanl-blue rounded-xl flex items-center justify-center text-white font-inter-black text-2xl hover:bg-opacity-90 transition shadow-lg text-center p-4">Planea tu visita</a>
+                    </div>
+
+                    <div class="w-full flex justify-center">
+                        <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" 
+                           class="w-full md:w-3/4 h-24 bg-uanl-blue rounded-xl flex items-center justify-center text-white font-inter-black text-2xl shadow-lg text-center p-4 transition-colors duration-300 hover:bg-uanl-gold hover:text-uanl-blue">
+                            Visita la tienda en línea
+                        </a>
+                    </div>
                 </div>
+
                 <aside class="w-full lg:w-1/3 bg-gray-50 p-6 border-l-4 border-uanl-blue rounded-r-lg">
                     <h2 class="text-uanl-blue font-inter-black text-xl mb-6 border-b pb-2">Próximos eventos</h2>
                     <div class="space-y-6">
