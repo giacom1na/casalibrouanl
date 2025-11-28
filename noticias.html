@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias - Casa Universitaria del Libro UANL</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        uanl: { blue: '#004a87', gold: '#fccf0a', text: '#414143' }
+                    },
+                    fontFamily: {
+                        'inter-black': ['"Inter"', 'sans-serif'],
+                        'bodoni': ['"Libre Bodoni"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .nav-item:hover .dropdown-menu { display: block; }
+        html { scroll-behavior: smooth; }
+        
+        /* Estilos específicos para los indicadores del carrusel Hero */
+        .hero-oval {
+            width: 40px;
+            height: 14px;
+            border: 2px solid #ffffff;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            background-color: transparent;
+        }
+        .hero-oval.active {
+            background-color: #ffffff;
+        }
+
+        /* Ocultar barra de scroll en carrusel de noticias pero permitir scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-white text-uanl-text font-bodoni flex flex-col min-h-screen">
+
+    <header class="fixed top-0 w-full z-50 bg-uanl-blue shadow-md">
+        <div class="container mx-auto px-4 h-20 flex items-center justify-between lg:justify-center lg:gap-4 relative z-50 bg-uanl-blue">
+            <div class="flex-shrink-0 mr-8">
+                <a href="index.html" class="flex items-center">
+                    <img src="img/logocasauanl.svg" alt="Logo Casa Universitaria del Libro" class="h-16 w-auto"> 
+                </a>
+            </div>
+
+            <nav class="hidden lg:flex items-center space-x-6 font-inter-black text-white text-sm">
+                
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>NOSOTROS <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-80 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="lacasa.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">LA CASA</a>
+                        <a href="salalectura.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">SALA DE LECTURA CARMEN ALARDÍN</a>
+                        <a href="contacto.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">CONTACTO</a>
+                    </div>
+                </div>
+
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>EDITORIAL UNIVERSITARIA UANL <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-56 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="colecciones.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">COLECCIONES EDITORIALES</a>
+                        <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">TIENDA</a>
+                    </div>
+                </div>
+
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="hover:text-uanl-gold transition-colors">UANLEER</a>
+                <a href="#noticias" class="text-uanl-gold transition-colors">NOTICIAS</a>
+                <a href="#programas" class="hover:text-uanl-gold transition-colors">PROGRAMAS Y PROYECTOS</a>
+                <a href="#calendario" title="Calendario" class="text-lg hover:text-uanl-gold transition-colors"><i class="fa-regular fa-calendar-days"></i></a>
+                <button onclick="toggleSearch()" title="Buscar" class="text-lg hover:text-uanl-gold transition-colors focus:outline-none"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </nav>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden absolute top-20 left-0 w-full bg-uanl-blue border-t border-blue-800 shadow-xl overflow-y-auto max-h-screen pb-20 z-40">
+            <div class="flex flex-col p-6 space-y-4 font-inter-black text-white">
+                <div class="border-b border-blue-800 pb-2">
+                    <span class="text-uanl-gold text-sm mb-2 block">NOSOTROS</span>
+                    <a href="lacasa.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">LA CASA</a>
+                    <a href="salalectura.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">SALA DE LECTURA CARMEN ALARDÍN</a>
+                    <a href="contacto.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">CONTACTO</a>
+                </div>
+                <div class="border-b border-blue-800 pb-2">
+                    <span class="text-uanl-gold text-sm mb-2 block">EDITORIAL</span>
+                    <a href="colecciones.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">COLECCIONES</a>
+                    <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block py-2 pl-4 hover:bg-blue-900 rounded">TIENDA</a>
+                </div>
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="block py-2 hover:text-uanl-gold">UANLEER</a>
+                <a href="#noticias" class="block py-2 text-uanl-gold">NOTICIAS</a>
+                <a href="#programas" class="block py-2 hover:text-uanl-gold">PROGRAMAS</a>
+            </div>
+        </div>
+
+        <div id="searchBar" class="hidden bg-white py-4 px-6 absolute w-full shadow-md z-30">
+            <input type="text" placeholder="Buscar palabras clave..." class="w-full border-b-2 border-uanl-blue p-2 outline-none text-uanl-text font-bodoni text-xl">
+        </div>
+    </header>
+
+    <main class="mt-20 flex-grow">
+        
+        <section class="relative w-full h-[600px] overflow-hidden group">
+            <div id="hero-slider" class="w-full h-full relative">
+                
+                <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-100">
+                    <a href="https://vidauniversitaria.uanl.mx/cultura/lanzan-convocatoria-del-premio-nacional-de-cuento-jose-alvarado/" target="_blank" class="block w-full h-full cursor-pointer">
+                        <img src="img/premioalvarado2026.png" alt="Premio José Alvarado" class="w-full h-full object-cover brightness-75 hover:scale-105 transition-transform duration-[2000ms]">
+                        <div class="absolute bottom-12 left-4 md:left-12 max-w-3xl z-10 flex flex-col items-start gap-2">
+                            <div class="bg-uanl-blue px-3 py-1 inline-block">
+                                <h2 class="text-white font-inter-black text-sm md:text-base">25 NOV 2025</h2>
+                            </div>
+                            <div class="bg-uanl-blue px-3 py-2 inline-block">
+                                <h1 class="text-[#fccf0a] font-inter-black text-2xl md:text-4xl leading-tight">Lanzan convocatoria del Premio Nacional de Cuento José Alvarado</h1>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-0">
+                    <a href="https://vidauniversitaria.uanl.mx/cultura/literatura-de-irene-vallejo-crea-puentes-entre-generaciones-de-lectores/" target="_blank" class="block w-full h-full cursor-pointer">
+                        <img src="img/premioirenevallejo.jpg" alt="Irene Vallejo" class="w-full h-full object-cover brightness-75 hover:scale-105 transition-transform duration-[2000ms]">
+                        <div class="absolute bottom-12 left-4 md:left-12 max-w-3xl z-10 flex flex-col items-start gap-2">
+                            <div class="bg-uanl-blue px-3 py-1 inline-block">
+                                <h2 class="text-white font-inter-black text-sm md:text-base">19 NOV 2025</h2>
+                            </div>
+                            <div class="bg-uanl-blue px-3 py-2 inline-block">
+                                <h1 class="text-[#fccf0a] font-inter-black text-2xl md:text-4xl leading-tight">Literatura de Irene Vallejo crea puentes entre generaciones de lectores</h1>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-0">
+                    <a href="https://vidauniversitaria.uanl.mx/cultura/tigres-de-14-kilates/" target="_blank" class="block w-full h-full cursor-pointer">
+                        <img src="img/orotigres14.jpg" alt="Tigres 14 kilates" class="w-full h-full object-cover brightness-75 hover:scale-105 transition-transform duration-[2000ms]">
+                        <div class="absolute bottom-12 left-4 md:left-12 max-w-3xl z-10 flex flex-col items-start gap-2">
+                            <div class="bg-uanl-blue px-3 py-1 inline-block">
+                                <h2 class="text-white font-inter-black text-sm md:text-base">7 NOV 2025</h2>
+                            </div>
+                            <div class="bg-uanl-blue px-3 py-2 inline-block">
+                                <h1 class="text-[#fccf0a] font-inter-black text-2xl md:text-4xl leading-tight">Tigres de 14 kilates</h1>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-0">
+                    <a href="https://vidauniversitaria.uanl.mx/cultura/presente-uanl-en-feria-del-libro-de-monclova/" target="_blank" class="block w-full h-full cursor-pointer">
+                        <img src="img/teatrofilmonclovauanl.jpg" alt="Feria del Libro Monclova" class="w-full h-full object-cover brightness-75 hover:scale-105 transition-transform duration-[2000ms]">
+                        <div class="absolute bottom-12 left-4 md:left-12 max-w-3xl z-10 flex flex-col items-start gap-2">
+                            <div class="bg-uanl-blue px-3 py-1 inline-block">
+                                <h2 class="text-white font-inter-black text-sm md:text-base">4 NOV 2025</h2>
+                            </div>
+                            <div class="bg-uanl-blue px-3 py-2 inline-block">
+                                <h1 class="text-[#fccf0a] font-inter-black text-2xl md:text-4xl leading-tight">Presente UANL en Feria del Libro de Monclova</h1>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="absolute bottom-12 right-4 md:right-12 flex space-x-3 z-20">
+                <div class="hero-oval active" onclick="setHeroSlide(0)"></div>
+                <div class="hero-oval" onclick="setHeroSlide(1)"></div>
+                <div class="hero-oval" onclick="setHeroSlide(2)"></div>
+                <div class="hero-oval" onclick="setHeroSlide(3)"></div>
+            </div>
+        </section>
+
+
+        <section class="container mx-auto px-4 py-16">
+            <div class="flex items-center justify-between mb-8 border-b-4 border-uanl-gold pb-2">
+                <h2 class="text-3xl font-inter-black text-[#414143]">Últimas noticias: Cultura</h2>
+                <div class="flex gap-4">
+                    <button onclick="scrollNews('left')" class="text-uanl-blue hover:text-uanl-gold text-3xl focus:outline-none transition-colors">
+                        <i class="fa-solid fa-circle-chevron-left"></i>
+                    </button>
+                    <button onclick="scrollNews('right')" class="text-uanl-blue hover:text-uanl-gold text-3xl focus:outline-none transition-colors">
+                        <i class="fa-solid fa-circle-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="news-carousel" class="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth pb-8">
+                
+                <div class="min-w-[300px] md:min-w-[350px] group cursor-pointer">
+                    <a href="https://vidauniversitaria.uanl.mx/cultura/osuanl-celebra-65-anos-con-beethoven-en-la-arena-monterrey/">
+                        <div class="relative overflow-hidden rounded-lg shadow-md aspect-[4/3]">
+                            <img src="img/osuanl.jpeg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-0 right-0 bg-uanl-blue text-white font-inter-black text-xs px-3 py-2 shadow-sm">
+                                25 NOV 2025
+                            </div>
+                        </div>
+                        <h3 class="mt-4 font-inter-black text-[#414143] text-lg leading-snug group-hover:text-uanl-blue transition-colors">OSUANL celebra 65 años con Beethoven en la Arena Monterrey</h3>
+                    </a>
+                </div>
+
+                <div class="min-w-[300px] md:min-w-[350px] group cursor-pointer">
+                    <a href="https://vidauniversitaria.uanl.mx/cultura/inaugura-uanl-sexta-edicion-de-la-catedra-alfonso-reyes-en-madrid/">
+                        <div class="relative overflow-hidden rounded-lg shadow-md aspect-[4/3]">
+                            <img src="img/catedrareyesmadrid.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-0 right-0 bg-uanl-blue text-white font-inter-black text-xs px-3 py-2 shadow-sm">
+                                18 NOV 2025
+                            </div>
+                        </div>
+                        <h3 class="mt-4 font-inter-black text-[#414143] text-lg leading-snug group-hover:text-uanl-blue transition-colors">Inaugura UANL sexta edición de la Cátedra Alfonso Reyes en Madrid</h3>
+                    </a>
+                </div>
+
+                <div class="min-w-[300px] md:min-w-[350px] group cursor-pointer">
+                    <a href="https://vidauniversitaria.uanl.mx/cultura/compania-titular-de-danza-folklorica-celebra-su-xv-aniversario/">
+                        <div class="relative overflow-hidden rounded-lg shadow-md aspect-[4/3]">
+                            <img src="img/compañiadanzauanl.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-0 right-0 bg-uanl-blue text-white font-inter-black text-xs px-3 py-2 shadow-sm">
+                                6 NOV 2025
+                            </div>
+                        </div>
+                        <h3 class="mt-4 font-inter-black text-[#414143] text-lg leading-snug group-hover:text-uanl-blue transition-colors">Compañía Titular de Danza Folklórica celebra su XV aniversario</h3>
+                    </a>
+                </div>
+
+                <div class="min-w-[300px] md:min-w-[350px] group cursor-pointer">
+                    <a href="https://vidauniversitaria.uanl.mx/cultura/interfolia-ventana-abierta-al-conocimiento/">
+                        <div class="relative overflow-hidden rounded-lg shadow-md aspect-[4/3]">
+                            <img src="img/interfolia.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-0 right-0 bg-uanl-blue text-white font-inter-black text-xs px-3 py-2 shadow-sm">
+                                7 NOV 2025
+                            </div>
+                        </div>
+                        <h3 class="mt-4 font-inter-black text-[#414143] text-lg leading-snug group-hover:text-uanl-blue transition-colors">Interfolia: ventana abierta al conocimiento y la lectura</h3>
+                    </a>
+                </div>
+
+                <div class="min-w-[300px] md:min-w-[350px] group cursor-pointer">
+                    <a href="https://vidauniversitaria.uanl.mx/cultura/preserva-uanl-tradicion-del-dia-de-muertos/">
+                        <div class="relative overflow-hidden rounded-lg shadow-md aspect-[4/3]">
+                            <img src="img/diamuertosuanl.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-0 right-0 bg-uanl-blue text-white font-inter-black text-xs px-3 py-2 shadow-sm">
+                                4 NOV 2025
+                            </div>
+                        </div>
+                        <h3 class="mt-4 font-inter-black text-[#414143] text-lg leading-snug group-hover:text-uanl-blue transition-colors">Preserva UANL tradición del Día de Muertos</h3>
+                    </a>
+                </div>
+
+                <div class="min-w-[300px] md:min-w-[350px] group cursor-pointer">
+                    <a href="https://vidauniversitaria.uanl.mx/cultura/patrick-johansson-ganador-del-premio-internacional-alfonso-reyes-2025/">
+                        <div class="relative overflow-hidden rounded-lg shadow-md aspect-[4/3]">
+                            <img src="img/premiointernacionalreyes.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-0 right-0 bg-uanl-blue text-white font-inter-black text-xs px-3 py-2 shadow-sm">
+                                4 NOV 2025
+                            </div>
+                        </div>
+                        <h3 class="mt-4 font-inter-black text-[#414143] text-lg leading-snug group-hover:text-uanl-blue transition-colors">Patrick Johansson, ganador del Premio Internacional Alfonso Reyes 2025</h3>
+                    </a>
+                </div>
+
+                <div class="min-w-[300px] md:min-w-[350px] group cursor-pointer">
+                    <a href="https://vidauniversitaria.uanl.mx/cultura/fusionan-en-sus-murales-el-mundo-literario-y-el-arte-plastico/">
+                        <div class="relative overflow-hidden rounded-lg shadow-md aspect-[4/3]">
+                            <img src="img/muralesuanl.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-0 right-0 bg-uanl-blue text-white font-inter-black text-xs px-3 py-2 shadow-sm">
+                                31 OCT 2025
+                            </div>
+                        </div>
+                        <h3 class="mt-4 font-inter-black text-[#414143] text-lg leading-snug group-hover:text-uanl-blue transition-colors">Fusionan en sus murales el mundo literario y el arte plástico</h3>
+                    </a>
+                </div>
+
+                <div class="min-w-[300px] md:min-w-[350px] group cursor-pointer">
+                    <a href="https://vidauniversitaria.uanl.mx/cultura/el-reino-en-cuento-antologia-del-cuento-en-nuevo-leon/">
+                        <div class="relative overflow-hidden rounded-lg shadow-md aspect-[4/3]">
+                            <img src="img/autoruanl.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-0 right-0 bg-uanl-blue text-white font-inter-black text-xs px-3 py-2 shadow-sm">
+                                6 OCT 2025
+                            </div>
+                        </div>
+                        <h3 class="mt-4 font-inter-black text-[#414143] text-lg leading-snug group-hover:text-uanl-blue transition-colors">El Reino en cuento: antología del cuento en Nuevo León</h3>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-uanl-text text-white py-12 border-t-4 border-uanl-gold mt-auto">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="font-bodoni text-2xl mb-4 text-white border-b border-gray-500 pb-2 inline-block">Contáctanos</h3>
+                <form class="space-y-3">
+                    <input type="email" placeholder="Tu correo electrónico" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold font-bodoni">
+                    <textarea maxlength="120" rows="3" placeholder="Mensaje" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold resize-none"></textarea>
+                    <button type="button" class="bg-uanl-blue text-white px-4 py-1 rounded hover:bg-uanl-gold hover:text-uanl-blue transition font-inter-black text-sm">ENVIAR</button>
+                </form>
+            </div>
+            <div class="text-center flex flex-col justify-center items-center font-bodoni space-y-2">
+                <p class="text-lg font-bold">Casa Universitaria del Libro UANL</p>
+                <p>Padre Mier 909 Pte. esquina con Vallarta.</p>
+                <p>Monterrey, Nuevo León.</p>
+                <p class="text-uanl-gold font-bold mt-2">81 8329 4111</p>
+            </div>
+            <div class="flex items-center justify-center md:justify-end gap-6">
+                <a href="https://www.facebook.com/CasaLibroUANL/?locale=es_LA" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.instagram.com/casadellibrouanl/?hl=es" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@casalibrouanl" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+
+        <div class="text-center mt-8 text-gray-500 text-xs font-inter-black">&copy; 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</div>
+    </footer>
+
+    <script>
+        // --- Header Logic ---
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+            btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
+            menu.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => menu.classList.add('hidden')); });
+        }
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('hidden');
+            if(!searchBar.classList.contains('hidden')){ searchBar.querySelector('input').focus(); }
+        }
+
+        // --- Hero Carousel Logic ---
+        let heroIndex = 0;
+        const heroSlides = document.querySelectorAll('#hero-slider .hero-slide');
+        const heroOvals = document.querySelectorAll('.hero-oval');
+        const totalHeroSlides = heroSlides.length;
+
+        function updateHeroSlide() {
+            heroSlides.forEach((slide, index) => {
+                slide.style.opacity = index === heroIndex ? '1' : '0';
+                slide.style.zIndex = index === heroIndex ? '10' : '0';
+                // Reset interaction if hidden
+                if(index !== heroIndex) slide.style.pointerEvents = 'none';
+                else slide.style.pointerEvents = 'auto';
+            });
+            heroOvals.forEach((oval, index) => {
+                if(index === heroIndex) oval.classList.add('active');
+                else oval.classList.remove('active');
+            });
+        }
+
+        function nextHeroSlide() {
+            heroIndex = (heroIndex + 1) % totalHeroSlides;
+            updateHeroSlide();
+        }
+
+        function setHeroSlide(index) {
+            heroIndex = index;
+            updateHeroSlide();
+            // Reiniciar el intervalo al hacer click manual
+            clearInterval(heroInterval);
+            heroInterval = setInterval(nextHeroSlide, 5000);
+        }
+
+        let heroInterval = setInterval(nextHeroSlide, 5000);
+        // Inicializar estado
+        updateHeroSlide();
+
+        // --- News Carousel Logic (Scroll + Reinicio) ---
+        function scrollNews(direction) {
+            const container = document.getElementById('news-carousel');
+            const scrollAmount = 350; 
+            
+            // Calculamos cuánto scroll máximo hay disponible
+            // scrollWidth es el ancho total de todas las noticias juntas
+            // clientWidth es el ancho visible en pantalla
+            const maxScroll = container.scrollWidth - container.clientWidth;
+            
+            if (direction === 'left') {
+                // Si estamos en la posición 0 (o muy cerca)
+                if (container.scrollLeft <= 10) {
+                    // Volver al final
+                    container.scrollTo({ left: maxScroll, behavior: 'smooth' });
+                } else {
+                    container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                }
+            } else {
+                // Si el scroll actual + un pequeño margen es mayor o igual al máximo
+                if (Math.ceil(container.scrollLeft) >= maxScroll - 10) {
+                    // Volver al principio
+                    container.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                }
+            }
+        }
+    </script>
+</body>
+</html>
