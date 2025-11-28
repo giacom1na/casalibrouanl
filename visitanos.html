@@ -82,7 +82,7 @@
                 <a href="https://uanleer.uanl.mx/" target="_blank" class="hover:text-uanl-gold transition-colors">UANLEER</a>
                 <a href="noticias.html" class="hover:text-uanl-gold transition-colors">NOTICIAS</a>
                 <a href="#programas" class="hover:text-uanl-gold transition-colors">PROGRAMAS Y PROYECTOS</a>
-                <a href="#calendario" title="Calendario" class="text-lg hover:text-uanl-gold transition-colors"><i class="fa-regular fa-calendar-days"></i></a>
+                <a href="calendario.html" title="Calendario" class="text-lg hover:text-uanl-gold transition-colors"><i class="fa-regular fa-calendar-days"></i></a>
                 <button onclick="toggleSearch()" title="Buscar" class="text-lg hover:text-uanl-gold transition-colors focus:outline-none"><i class="fa-solid fa-magnifying-glass"></i></button>
             </nav>
 
@@ -105,7 +105,7 @@
                     <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block py-2 pl-4 hover:bg-blue-900 rounded">TIENDA</a>
                 </div>
                 <a href="https://uanleer.uanl.mx/" target="_blank" class="block py-2 hover:text-uanl-gold">UANLEER</a>
-                <a href="#noticias" class="block py-2 hover:text-uanl-gold">NOTICIAS</a>
+                <a href="noticias.html" class="block py-2 hover:text-uanl-gold">NOTICIAS</a>
                 <a href="#programas" class="block py-2 hover:text-uanl-gold">PROGRAMAS</a>
             </div>
         </div>
@@ -169,25 +169,46 @@
 
                 </article>
 
+                <!-- ASIDE ACTUALIZADO -->
                 <aside class="w-full lg:w-1/4 flex flex-col gap-8 h-fit sticky top-24">
                     
                     <div class="bg-gray-50 p-4 border-l-4 border-uanl-blue rounded-r-lg">
                         <h2 class="text-uanl-blue font-inter-black text-lg mb-6 border-b pb-2 text-center lg:text-left">Próximos eventos</h2>
                         <div class="space-y-6">
+                            <!-- Evento 1 -->
                             <div class="flex flex-row lg:flex-col xl:flex-row gap-3 items-center lg:items-start">
-                                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=100&h=100" class="w-16 h-16 object-cover rounded shadow flex-shrink-0">
-                                <div><h3 class="font-bodoni font-bold text-sm text-uanl-text">Presentación: Poesía Viva</h3><p class="text-xs font-bodoni text-gray-600 line-clamp-2">Lectura con autores locales.</p><span class="text-[10px] font-bold text-uanl-blue mt-1 block">18:00 HRS</span></div>
+                                <img src="img/eventolunes1.jpg" class="w-16 h-16 object-cover rounded shadow flex-shrink-0">
+                                <div>
+                                    <h3 class="font-bodoni font-bold text-sm text-uanl-text">Poesía en voz alta</h3>
+                                    <p class="text-xs font-bodoni text-gray-600 line-clamp-2">Lectura</p>
+                                    <span class="text-[10px] font-bold text-uanl-blue mt-1 block">1 DIC | 17:00 H</span>
+                                </div>
                             </div>
+                            <!-- Evento 2 -->
                             <div class="flex flex-row lg:flex-col xl:flex-row gap-3 items-center lg:items-start">
-                                <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&q=80&w=100&h=100" class="w-16 h-16 object-cover rounded shadow flex-shrink-0">
-                                <div><h3 class="font-bodoni font-bold text-sm text-uanl-text">Taller de Escritura</h3><p class="text-xs font-bodoni text-gray-600 line-clamp-2">Curso intensivo.</p><span class="text-[10px] font-bold text-uanl-blue mt-1 block">10:00 HRS</span></div>
+                                <img src="img/eventolunes1.1.jpg" class="w-16 h-16 object-cover rounded shadow flex-shrink-0">
+                                <div>
+                                    <h3 class="font-bodoni font-bold text-sm text-uanl-text">Ruinas líquidas</h3>
+                                    <p class="text-xs font-bodoni text-gray-600 line-clamp-2">Presentación editorial</p>
+                                    <span class="text-[10px] font-bold text-uanl-blue mt-1 block">1 DIC | 17:30 H</span>
+                                </div>
                             </div>
+                            <!-- Evento 3 -->
                             <div class="flex flex-row lg:flex-col xl:flex-row gap-3 items-center lg:items-start">
-                                <img src="https://images.unsplash.com/photo-1460518451285-97b6aa326961?auto=format&fit=crop&q=80&w=100&h=100" class="w-16 h-16 object-cover rounded shadow flex-shrink-0">
-                                <div><h3 class="font-bodoni font-bold text-sm text-uanl-text">Feria del Libro</h3><p class="text-xs font-bodoni text-gray-600 line-clamp-2">Grandes descuentos.</p><span class="text-[10px] font-bold text-uanl-blue mt-1 block">12:00 HRS</span></div>
+                                <img src="img/eventolunes1.2.jpg" class="w-16 h-16 object-cover rounded shadow flex-shrink-0">
+                                <div>
+                                    <h3 class="font-bodoni font-bold text-sm text-uanl-text">Reimaginar la mirada</h3>
+                                    <p class="text-xs font-bodoni text-gray-600 line-clamp-2">Presentación editorial</p>
+                                    <span class="text-[10px] font-bold text-uanl-blue mt-1 block">1 DIC | 18:00 H</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="mt-8 text-center lg:text-right"><a href="#noticias" class="font-inter-black text-xs text-uanl-blue hover:text-uanl-gold transition-colors inline-flex items-center gap-2">Ir al calendario <i class="fa-solid fa-arrow-right"></i></a></div>
+                        <!-- Botón actualizado para ir a calendario.html -->
+                        <div class="mt-8 text-center lg:text-right">
+                            <a href="calendario.html" class="font-inter-black text-xs text-uanl-blue hover:text-uanl-gold transition-colors inline-flex items-center gap-2">
+                                Ir al calendario <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
 
                     <div class="relative w-full h-48 rounded-xl overflow-hidden shadow-lg group">

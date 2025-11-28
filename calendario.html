@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario - Casa Universitaria del Libro UANL</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        uanl: { blue: '#004a87', gold: '#fccf0a', text: '#414143' }
+                    },
+                    fontFamily: {
+                        'inter-black': ['"Inter"', 'sans-serif'],
+                        'bodoni': ['"Libre Bodoni"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .nav-item:hover .dropdown-menu { display: block; }
+        html { scroll-behavior: smooth; }
+        
+        /* Estilos para el Date Picker personalizado */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+        }
+        .calendar-day:hover {
+            background-color: #f3f4f6;
+            color: #004a87;
+            font-weight: bold;
+        }
+        .calendar-day.selected {
+            background-color: #004a87;
+            color: white;
+        }
+        
+        /* Animación suave para las tarjetas */
+        .event-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .event-card:hover {
+            transform: scale(1.01);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-white text-uanl-text font-bodoni flex flex-col min-h-screen">
+
+    <!-- HEADER (Sticky) -->
+    <header class="fixed top-0 w-full z-50 bg-uanl-blue shadow-md">
+        <div class="container mx-auto px-4 h-20 flex items-center justify-between lg:justify-center lg:gap-4 relative z-50 bg-uanl-blue">
+            <div class="flex-shrink-0 mr-8">
+                <a href="index.html" class="flex items-center">
+                    <img src="img/logocasauanl.svg" alt="Logo Casa Universitaria del Libro" class="h-16 w-auto"> 
+                </a>
+            </div>
+
+            <nav class="hidden lg:flex items-center space-x-6 font-inter-black text-white text-sm">
+                
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>NOSOTROS <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-80 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="lacasa.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">LA CASA</a>
+                        <a href="salalectura.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">SALA DE LECTURA CARMEN ALARDÍN</a>
+                        <a href="contacto.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">CONTACTO</a>
+                    </div>
+                </div>
+
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span>EDITORIAL UNIVERSITARIA UANL <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-56 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="colecciones.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">COLECCIONES EDITORIALES</a>
+                        <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">TIENDA</a>
+                    </div>
+                </div>
+
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="hover:text-uanl-gold transition-colors">UANLEER</a>
+                <a href="noticias.html" class="hover:text-uanl-gold transition-colors">NOTICIAS</a>
+                <a href="#programas" class="hover:text-uanl-gold transition-colors">PROGRAMAS Y PROYECTOS</a>
+                <a href="calendario.html" title="Calendario" class="text-lg text-uanl-gold transition-colors"><i class="fa-regular fa-calendar-days"></i></a>
+                <button onclick="toggleGlobalSearch()" title="Buscar" class="text-lg hover:text-uanl-gold transition-colors focus:outline-none"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </nav>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Menú Móvil -->
+        <div id="mobile-menu" class="hidden lg:hidden absolute top-20 left-0 w-full bg-uanl-blue border-t border-blue-800 shadow-xl overflow-y-auto max-h-screen pb-20 z-40">
+            <div class="flex flex-col p-6 space-y-4 font-inter-black text-white">
+                <div class="border-b border-blue-800 pb-2">
+                    <span class="text-uanl-gold text-sm mb-2 block">NOSOTROS</span>
+                    <a href="lacasa.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">LA CASA</a>
+                    <a href="salalectura.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">SALA DE LECTURA CARMEN ALARDÍN</a>
+                    <a href="contacto.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">CONTACTO</a>
+                </div>
+                <div class="border-b border-blue-800 pb-2">
+                    <span class="text-uanl-gold text-sm mb-2 block">EDITORIAL</span>
+                    <a href="colecciones.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">COLECCIONES</a>
+                    <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block py-2 pl-4 hover:bg-blue-900 rounded">TIENDA</a>
+                </div>
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="block py-2 hover:text-uanl-gold">UANLEER</a>
+                <a href="noticias.html" class="block py-2 hover:text-uanl-gold">NOTICIAS</a>
+                <a href="#programas" class="block py-2 hover:text-uanl-gold">PROGRAMAS</a>
+                <a href="calendario.html" class="block py-2 text-uanl-gold">CALENDARIO</a>
+            </div>
+        </div>
+
+        <div id="searchBar" class="hidden bg-white py-4 px-6 absolute w-full shadow-md z-30">
+            <input type="text" placeholder="Buscar palabras clave..." class="w-full border-b-2 border-uanl-blue p-2 outline-none text-uanl-text font-bodoni text-xl">
+        </div>
+    </header>
+
+    <main class="mt-20 flex-grow bg-white">
+        <section class="container mx-auto px-4 py-12 max-w-6xl">
+            
+            <!-- Título Principal -->
+            <h1 class="font-inter-black text-[#414143] text-4xl md:text-5xl mb-8 text-left">
+                Calendario de eventos
+            </h1>
+
+            <!-- Barras de Búsqueda -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 relative z-20">
+                
+                <!-- Barra 1: Buscar Palabra Clave -->
+                <div class="relative">
+                    <input type="text" id="keywordSearch" placeholder="Buscar" class="w-full h-14 px-6 rounded-lg bg-white shadow-md focus:outline-none font-bodoni text-[#414143] placeholder-[#414143]" oninput="filterEvents()">
+                </div>
+
+                <!-- Barra 2: Fecha (Date Picker) -->
+                <div class="relative">
+                    <button id="dateBtn" onclick="toggleCalendar()" class="w-full h-14 px-6 rounded-lg bg-white shadow-md focus:outline-none font-bodoni text-[#414143] text-left flex items-center justify-between">
+                        <span id="selectedDateText">Fecha</span>
+                        <i class="fa-regular fa-calendar text-gray-400"></i>
+                    </button>
+                    <!-- Mini Calendario Desplegable -->
+                    <div id="miniCalendar" class="hidden absolute top-full left-0 w-full bg-white shadow-xl rounded-lg mt-2 p-4 z-30 border border-gray-100">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="font-inter-black text-uanl-blue">DICIEMBRE 2025</span>
+                            <div class="flex gap-2">
+                                <button class="text-gray-400 hover:text-uanl-blue"><i class="fa-solid fa-chevron-left"></i></button>
+                                <button class="text-gray-400 hover:text-uanl-blue"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-7 text-center text-xs font-bold text-gray-400 mb-2">
+                            <div>D</div><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div>
+                        </div>
+                        <div id="calendarDays" class="calendar-grid">
+                            <!-- Días generados por JS -->
+                        </div>
+                        <button onclick="clearDateFilter()" class="w-full mt-3 text-xs text-uanl-blue hover:underline text-center">Borrar filtro de fecha</button>
+                    </div>
+                </div>
+
+                <!-- Barra 3: Tipo de Evento -->
+                <div class="relative">
+                    <button onclick="toggleTypeDropdown()" class="w-full h-14 px-6 rounded-lg bg-white shadow-md focus:outline-none font-bodoni text-[#414143] text-left flex items-center justify-between">
+                        <span id="selectedTypeText">Tipo de evento</span>
+                        <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                    </button>
+                    <!-- Dropdown -->
+                    <div id="typeDropdown" class="hidden absolute top-full left-0 w-full bg-white shadow-xl rounded-lg mt-2 py-2 z-30 border border-gray-100">
+                        <div class="px-4 py-2 hover:bg-gray-50 cursor-pointer font-bodoni text-[#414143]" onclick="selectType('Presentación editorial')">Presentación editorial</div>
+                        <div class="px-4 py-2 hover:bg-gray-50 cursor-pointer font-bodoni text-[#414143]" onclick="selectType('Lectura')">Lectura</div>
+                        <div class="px-4 py-2 hover:bg-gray-50 cursor-pointer font-bodoni text-gray-400 text-sm border-t mt-1" onclick="selectType('')">Ver todos</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Contenedor de Eventos -->
+            <div id="eventsContainer" class="flex flex-col gap-6">
+                <!-- Los eventos se inyectan aquí via JS -->
+            </div>
+
+            <!-- Paginación -->
+            <div id="paginationContainer" class="flex justify-center items-center gap-4 mt-12 mb-8 font-inter-black">
+                <!-- Paginación generada por JS -->
+            </div>
+
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-uanl-text text-white py-12 border-t-4 border-uanl-gold mt-auto">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="font-bodoni text-2xl mb-4 text-white border-b border-gray-500 pb-2 inline-block">Contáctanos</h3>
+                <form class="space-y-3">
+                    <input type="email" placeholder="Tu correo electrónico" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold font-bodoni">
+                    <textarea maxlength="120" rows="3" placeholder="Mensaje" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold resize-none"></textarea>
+                    <button type="button" class="bg-uanl-blue text-white px-4 py-1 rounded hover:bg-uanl-gold hover:text-uanl-blue transition font-inter-black text-sm">ENVIAR</button>
+                </form>
+            </div>
+            <div class="text-center flex flex-col justify-center items-center font-bodoni space-y-2">
+                <p class="text-lg font-bold">Casa Universitaria del Libro UANL</p>
+                <p>Padre Mier 909 Pte. esquina con Vallarta.</p>
+                <p>Monterrey, Nuevo León.</p>
+                <p class="text-uanl-gold font-bold mt-2">81 8329 4111</p>
+            </div>
+            <div class="flex items-center justify-center md:justify-end gap-6">
+                <a href="https://www.facebook.com/CasaLibroUANL/?locale=es_LA" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.instagram.com/casadellibrouanl/?hl=es" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@casalibrouanl" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-gray-500 text-xs font-inter-black">&copy; 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</div>
+    </footer>
+
+    <!-- Modal para Volante -->
+    <div id="flyerModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black bg-opacity-90 p-4 backdrop-blur-sm transition-opacity duration-300" onclick="closeFlyer()">
+        <div class="relative max-w-4xl max-h-[90vh]">
+            <button class="absolute -top-10 right-0 text-white hover:text-uanl-gold text-4xl font-bold focus:outline-none">&times;</button>
+            <img id="flyerImage" src="" alt="Volante del evento" class="max-w-full max-h-[85vh] rounded shadow-2xl">
+        </div>
+    </div>
+
+    <!-- Script Lógica -->
+    <script>
+        // --- Header & Global ---
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+            btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
+            menu.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => menu.classList.add('hidden')); });
+        }
+        function toggleGlobalSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('hidden');
+            if(!searchBar.classList.contains('hidden')){ searchBar.querySelector('input').focus(); }
+        }
+
+        // --- DATOS DE EVENTOS ---
+        const eventsData = [
+            {
+                id: 1, date: "2025-12-01", displayDay: "1", displayMonth: "DIC",
+                name: "Poesía en voz alta", time: "17:00 H", location: "Feria Internacional del Libro de Guadalajara, Stand K-16",
+                participants: "Minerva Reynosa, Aziz Córdova, Indeed Medina, Matt Zedillo, Diego Plasencia, Frydha Victoria y Paula Abramo.",
+                type: "Lectura", img: "img/eventolunes1.jpg"
+            },
+            {
+                id: 2, date: "2025-12-01", displayDay: "1", displayMonth: "DIC",
+                name: "Ruinas líquidas, de Zeth Arellano", time: "17:30 H", location: "Feria Internacional del Libro de Guadalajara, Salón B, Área Internacional",
+                participants: "Cecilia Eudave, Mónica Maristain y la autora.",
+                type: "Presentación editorial", img: "img/eventolunes1.1.jpg"
+            },
+            {
+                id: 3, date: "2025-12-01", displayDay: "1", displayMonth: "DIC",
+                name: "Reimaginar la mirada, Cartografías, rutas y saberes del libro ilustrado, de Andrea Fuentes Silva", time: "18:00 H", location: "Feria Internacional del Libro de Guadalajara, Stand I-22",
+                participants: "Adolfo Córdova y la autora.",
+                type: "Presentación editorial", img: "img/eventolunes1.2.jpg"
+            },
+            {
+                id: 4, date: "2025-12-01", displayDay: "1", displayMonth: "DIC",
+                name: "Incluso la muerte tarda, de Jordi Virallonga", time: "19:00 H", location: "Feria Internacional del Libro de Guadalajara, Stand K-16",
+                participants: "José Ángel Leyva y el autor.",
+                type: "Presentación editorial", img: "img/eventolunes1.3.jpg"
+            },
+            {
+                id: 5, date: "2025-12-02", displayDay: "2", displayMonth: "DIC",
+                name: "Plegarias de un saguaro a medianoche, de Patricio S. Alejandro", time: "18:00 H", location: "Feria Internacional del Libro de Guadalajara, Stand I-22",
+                participants: "Bladimir Ramírez y el autor.",
+                type: "Presentación editorial", img: "img/eventomartes2.jpg"
+            },
+            {
+                id: 6, date: "2025-12-02", displayDay: "2", displayMonth: "DIC",
+                name: "Sr. & Dr., de Mariela Sancari y Adolfo Córdova", time: "20:00 H", location: "Feria Internacional del Libro de Guadalajara, Stand K-16",
+                participants: "Andrea Fuentes Silva y los autores.",
+                type: "Presentación editorial", img: "img/eventomartes2.1.jpg"
+            },
+            {
+                id: 7, date: "2025-12-03", displayDay: "3", displayMonth: "DIC",
+                name: "El hermoso ruido de la motocicleta que nos trae la pizza, de Armando Alanís Pulido", time: "18:00 H", location: "Feria Internacional del Libro de Guadalajara, Stand K-16",
+                participants: "Jorge Ortega y el autor.",
+                type: "Presentación editorial", img: "img/eventomie3.jpg"
+            },
+            {
+                id: 8, date: "2025-12-03", displayDay: "3", displayMonth: "DIC",
+                name: "El último día de Reyes, de Ricardo Marcos González", time: "19:00 H", location: "Feria Internacional del Libro de Guadalajara, Stand I-22",
+                participants: "Ana Laura Santamarina, Hernán Galindo y el autor.",
+                type: "Presentación editorial", img: "img/eventomie3.1.jpg"
+            },
+            {
+                id: 9, date: "2025-12-04", displayDay: "4", displayMonth: "DIC",
+                name: "Revista Armas y Letras, no. 115", time: "18:00 H", location: "Feria Internacional del Libro de Guadalajara, Stand I-22",
+                participants: "Julián Herbert. Sylvia Georgina Estrada, Gabriel Wolfson y Carlos Lejaim Gómez.",
+                type: "Presentación editorial", img: "img/eventojue4.jpg"
+            },
+            {
+                id: 10, date: "2025-12-04", displayDay: "4", displayMonth: "DIC",
+                name: "David Rogelio Colmenares Páramo. Una vocación por la economía...", time: "19:30 H", location: "Feria Internacional del Libro de Guadalajara, Salón F, Área Internacional",
+                participants: "Eber Betanzos Torres y el autor.",
+                type: "Presentación editorial", img: "img/eventojue4.1.jpg"
+            },
+            {
+                id: 11, date: "2025-12-05", displayDay: "5", displayMonth: "DIC",
+                name: "Aquí no sobran sombreros, de Francisco J. Serrano", time: "16:00 H", location: "Feria Internacional del Libro de Guadalajara, Stand I-22",
+                participants: "Invitados especiales.",
+                type: "Presentación editorial", img: "img/eventovie5.jpg"
+            },
+            {
+                id: 12, date: "2025-12-05", displayDay: "5", displayMonth: "DIC",
+                name: "Estos muros que te ven. Oro griego, tigres romanos", time: "18:00 H", location: "Feria Internacional del Libro de Guadalajara, Stand I-22",
+                participants: "José Javier Villareal, Silvia Eugenia Castillero, Verónica Grossi y Sara López.",
+                type: "Presentación editorial", img: "img/eventovie5.1.jpg"
+            },
+            {
+                id: 13, date: "2025-12-05", displayDay: "5", displayMonth: "DIC",
+                name: "El oro de los tigres XIV", time: "20:00 H", location: "Feria Internacional del Libro de Guadalajara, Salón A, Área Internacional",
+                participants: "Jaqueline Santos Jiménez, José Javier Villareal y Carlos Lejaim Gómez.",
+                type: "Presentación editorial", img: "img/eventovie5.2.jpg"
+            },
+            {
+                id: 14, date: "2025-12-05", displayDay: "5", displayMonth: "DIC",
+                name: "El ritmo de la creación. Los rostros de la medicina", time: "19:00 H", location: "Feria Internacional del Libro de Guadalajara, Stand I-22",
+                participants: "Sara López, Gabriela Bautista y Carlos Lejaim Gómez.",
+                type: "Presentación editorial", img: "img/eventovie5.3.jpg"
+            },
+            {
+                id: 15, date: "2025-12-06", displayDay: "6", displayMonth: "DIC",
+                name: "Balar de piedras, de Rodrigo Alvarado Rocha", time: "16:00 H", location: "Feria Internacional del Libro de Guadalajara, Stand K-16",
+                participants: "Ana Corvera, Enrique Carlos y el autor.",
+                type: "Presentación editorial", img: "img/eventosab6.jpg"
+            },
+            {
+                id: 16, date: "2025-12-06", displayDay: "6", displayMonth: "DIC",
+                name: "El mar alfonsino: una literatura de anchuroso fluir", time: "18:00 H", location: "Feria Internacional del Libro de Guadalajara, Stand I-22",
+                participants: "Rodrigo Alvarado Rocha y Carlos Lejaim Gómez.",
+                type: "Presentación editorial", img: "img/eventosab6.1.jpg"
+            }
+        ];
+
+        // --- Estado ---
+        let currentPage = 1;
+        const itemsPerPage = 5;
+        let filters = {
+            keyword: "",
+            date: "",
+            type: ""
+        };
+
+        // --- Renderizado de Eventos ---
+        function renderEvents() {
+            const container = document.getElementById('eventsContainer');
+            container.innerHTML = "";
+
+            // 1. Filtrar
+            let filteredEvents = eventsData.filter(event => {
+                const matchKeyword = filters.keyword === "" || 
+                                     event.name.toLowerCase().includes(filters.keyword.toLowerCase()) || 
+                                     event.participants.toLowerCase().includes(filters.keyword.toLowerCase());
+                const matchDate = filters.date === "" || event.date === filters.date;
+                const matchType = filters.type === "" || event.type === filters.type;
+                return matchKeyword && matchDate && matchType;
+            });
+
+            // 2. Paginar
+            const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
+            if (currentPage > totalPages && totalPages > 0) currentPage = 1;
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const eventsToShow = filteredEvents.slice(startIndex, endIndex);
+
+            // 3. Renderizar DOM
+            if (eventsToShow.length === 0) {
+                // Estado vacío: espacio en blanco
+                container.innerHTML = `<div class="w-full h-40 flex items-center justify-center text-gray-400 font-bodoni">No se encontraron eventos.</div>`;
+            } else {
+                eventsToShow.forEach(event => {
+                    const card = document.createElement('div');
+                    card.className = "event-card bg-white rounded-lg shadow-md w-full relative p-6 flex flex-col md:flex-row gap-6 mx-auto";
+                    card.innerHTML = `
+                        <!-- Botón desplegable (Share) simulación -->
+                        <div class="absolute top-4 right-4 z-10 group cursor-pointer">
+                            <i class="fa-solid fa-ellipsis-vertical text-uanl-text text-xl hover:text-uanl-blue px-2"></i>
+                            <div class="hidden group-hover:block absolute right-0 bg-white shadow-lg border rounded p-2 min-w-[100px]">
+                                <a href="#" class="block text-sm text-uanl-text hover:text-uanl-blue py-1">Compartir</a>
+                            </div>
+                        </div>
+
+                        <!-- Botón Volante -->
+                        <button onclick="openFlyer('${event.img}')" class="absolute bottom-4 right-4 bg-uanl-blue text-white font-inter-black text-xs px-4 py-2 rounded-lg hover:bg-uanl-gold hover:text-uanl-blue transition-colors z-10">
+                            Ver volante
+                        </button>
+
+                        <!-- Caja Fecha -->
+                        <div class="flex-shrink-0 w-24 h-24 bg-[#414143]/25 relative flex flex-col items-center justify-center rounded-sm">
+                            <div class="absolute top-0 left-0 w-full h-1 flex justify-center">
+                                <div class="w-1/6 h-full bg-uanl-blue"></div>
+                            </div>
+                            <h1 class="font-inter-black text-4xl text-[#414143] leading-none">${event.displayDay}</h1>
+                            <h2 class="font-bodoni text-xl text-[#414143] uppercase tracking-wider">${event.displayMonth}</h2>
+                        </div>
+
+                        <!-- Información -->
+                        <div class="flex-grow pr-16 pb-8 md:pb-0">
+                            <h4 class="font-inter-black text-[#414143] text-sm uppercase mb-1 tracking-wide">${event.type}</h4>
+                            <h1 class="font-inter-black text-uanl-blue text-2xl mb-1">${event.name}</h1>
+                            <h2 class="font-inter-black text-uanl-blue text-lg mb-1">${event.time}</h2>
+                            <h3 class="font-bodoni text-uanl-gold text-lg mb-2 font-bold" style="text-shadow: 0px 0px 1px rgba(0,0,0,0.1);">${event.location}</h3>
+                            <h4 class="font-bodoni text-[#414143] text-base">${event.participants}</h4>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+
+            renderPagination(totalPages);
+        }
+
+        // --- Renderizado de Paginación ---
+        function renderPagination(totalPages) {
+            const container = document.getElementById('paginationContainer');
+            container.innerHTML = "";
+            if (totalPages <= 1) return;
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.innerText = i;
+                btn.className = `w-10 h-10 rounded-full flex items-center justify-center transition-colors font-bold ${
+                    i === currentPage 
+                    ? 'bg-uanl-gold text-uanl-blue' 
+                    : 'bg-white text-uanl-blue border border-uanl-blue hover:bg-uanl-gold hover:text-uanl-blue hover:border-uanl-gold'
+                }`;
+                btn.onclick = () => {
+                    currentPage = i;
+                    renderEvents();
+                    window.scrollTo({ top: 300, behavior: 'smooth' });
+                };
+                container.appendChild(btn);
+            }
+        }
+
+        // --- Lógica de Filtros ---
+        function filterEvents() {
+            filters.keyword = document.getElementById('keywordSearch').value;
+            currentPage = 1; // Reset a página 1 al filtrar
+            renderEvents();
+        }
+
+        function selectType(type) {
+            filters.type = type;
+            document.getElementById('selectedTypeText').innerText = type || "Tipo de evento";
+            document.getElementById('typeDropdown').classList.add('hidden');
+            currentPage = 1;
+            renderEvents();
+        }
+
+        function toggleTypeDropdown() {
+            document.getElementById('miniCalendar').classList.add('hidden'); // Cierra otros
+            document.getElementById('typeDropdown').classList.toggle('hidden');
+        }
+
+        // --- Lógica de Calendario (Mini) ---
+        function toggleCalendar() {
+            document.getElementById('typeDropdown').classList.add('hidden'); // Cierra otros
+            document.getElementById('miniCalendar').classList.toggle('hidden');
+            if(!document.getElementById('miniCalendar').classList.contains('hidden')){
+                generateCalendarDays();
+            }
+        }
+
+        function generateCalendarDays() {
+            const grid = document.getElementById('calendarDays');
+            grid.innerHTML = "";
+            
+            // Generar para Diciembre 2025
+            // 1 de Dic de 2025 es Lunes (índice 1 en getDay(), pero grid empieza en Domingo)
+            // Offset manual para simpleza visual en este ejemplo
+            const daysInMonth = 31;
+            const startDayOffset = 1; // Lunes
+
+            // Días vacíos previos
+            for(let i=0; i<startDayOffset; i++){
+                grid.innerHTML += `<div></div>`;
+            }
+
+            for(let i=1; i<=daysInMonth; i++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = "calendar-day";
+                dayDiv.innerText = i;
+                
+                // Formato YYYY-MM-DD
+                const dateStr = `2025-12-${i.toString().padStart(2, '0')}`;
+                
+                if (filters.date === dateStr) {
+                    dayDiv.classList.add('selected');
+                }
+
+                dayDiv.onclick = () => {
+                    filters.date = dateStr;
+                    document.getElementById('selectedDateText').innerText = `${i} DIC 2025`;
+                    document.getElementById('miniCalendar').classList.add('hidden');
+                    currentPage = 1;
+                    renderEvents();
+                };
+                grid.appendChild(dayDiv);
+            }
+        }
+
+        function clearDateFilter() {
+            filters.date = "";
+            document.getElementById('selectedDateText').innerText = "Fecha";
+            document.getElementById('miniCalendar').classList.add('hidden');
+            renderEvents();
+        }
+
+        // --- Lógica de Volante (Modal) ---
+        function openFlyer(imgSrc) {
+            document.getElementById('flyerImage').src = imgSrc;
+            document.getElementById('flyerModal').classList.remove('hidden');
+        }
+
+        function closeFlyer() {
+            document.getElementById('flyerModal').classList.add('hidden');
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            renderEvents();
+            
+            // Cerrar dropdowns al hacer click fuera
+            document.addEventListener('click', function(event) {
+                const calendar = document.getElementById('miniCalendar');
+                const btnCal = document.getElementById('dateBtn');
+                const dropdown = document.getElementById('typeDropdown');
+                // Lógica simple para cerrar si no se clickea dentro
+                if (!event.target.closest('#dateBtn') && !event.target.closest('#miniCalendar')) {
+                    calendar.classList.add('hidden');
+                }
+                if (!event.target.closest('button[onclick="toggleTypeDropdown()"]') && !event.target.closest('#typeDropdown')) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
