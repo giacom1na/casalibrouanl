@@ -365,6 +365,25 @@
             type: ""
         };
 
+        // --- Helper: Formato de Título ---
+        const formatEventName = (name, type) => {
+            const regex = /^(.*)(, de .*)$/;
+            const match = name.match(regex);
+            
+            // Prioridad 1: Si tiene estructura ", de (autor)", cursiva solo título
+            if (match) {
+                return `<span class="italic">${match[1]}</span>${match[2]}`;
+            }
+            
+            // Prioridad 2: Si es Presentación Editorial pero NO tiene autor explícito, cursiva todo
+            if (type === "Presentación editorial") {
+                return `<span class="italic">${name}</span>`;
+            }
+
+            // Prioridad 3: Resto (ej. Lectura) normal
+            return name;
+        };
+
         // --- Renderizado de Eventos ---
         function renderEvents() {
             const container = document.getElementById('eventsContainer');
@@ -390,7 +409,6 @@
 
             // 3. Renderizar DOM
             if (eventsToShow.length === 0) {
-                // Estado vacío: espacio en blanco
                 container.innerHTML = `<div class="w-full h-40 flex items-center justify-center text-gray-400 font-bodoni">No se encontraron eventos.</div>`;
             } else {
                 eventsToShow.forEach(event => {
@@ -410,19 +428,18 @@
                             Ver volante
                         </button>
 
-                        <!-- Caja Fecha -->
-                        <div class="flex-shrink-0 w-24 h-24 bg-[#414143]/25 relative flex flex-col items-center justify-center rounded-sm">
-                            <div class="absolute top-0 left-0 w-full h-1 flex justify-center">
-                                <div class="w-1/6 h-full bg-uanl-blue"></div>
-                            </div>
-                            <h1 class="font-inter-black text-4xl text-[#414143] leading-none">${event.displayDay}</h1>
+                        <!-- Caja Fecha (Corregida línea azul) -->
+                        <div class="flex-shrink-0 w-24 h-24 bg-[#414143]/25 relative flex flex-col items-center justify-center rounded-sm overflow-hidden">
+                            <!-- Línea azul que cubre todo el borde superior -->
+                            <div class="absolute top-0 left-0 w-full h-1.5 bg-uanl-blue"></div>
+                            <h1 class="font-inter-black text-4xl text-[#414143] leading-none mt-2">${event.displayDay}</h1>
                             <h2 class="font-bodoni text-xl text-[#414143] uppercase tracking-wider">${event.displayMonth}</h2>
                         </div>
 
-                        <!-- Información -->
+                        <!-- Información (Título Formateado) -->
                         <div class="flex-grow pr-16 pb-8 md:pb-0">
                             <h4 class="font-inter-black text-[#414143] text-sm uppercase mb-1 tracking-wide">${event.type}</h4>
-                            <h1 class="font-inter-black text-uanl-blue text-2xl mb-1">${event.name}</h1>
+                            <h1 class="font-inter-black text-uanl-blue text-2xl mb-1">${formatEventName(event.name, event.type)}</h1>
                             <h2 class="font-inter-black text-uanl-blue text-lg mb-1">${event.time}</h2>
                             <h3 class="font-bodoni text-uanl-gold text-lg mb-2 font-bold" style="text-shadow: 0px 0px 1px rgba(0,0,0,0.1);">${event.location}</h3>
                             <h4 class="font-bodoni text-[#414143] text-base">${event.participants}</h4>
@@ -492,8 +509,6 @@
             grid.innerHTML = "";
             
             // Generar para Diciembre 2025
-            // 1 de Dic de 2025 es Lunes (índice 1 en getDay(), pero grid empieza en Domingo)
-            // Offset manual para simpleza visual en este ejemplo
             const daysInMonth = 31;
             const startDayOffset = 1; // Lunes
 
@@ -507,7 +522,6 @@
                 dayDiv.className = "calendar-day";
                 dayDiv.innerText = i;
                 
-                // Formato YYYY-MM-DD
                 const dateStr = `2025-12-${i.toString().padStart(2, '0')}`;
                 
                 if (filters.date === dateStr) {
