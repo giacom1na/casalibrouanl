@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programas y Proyectos | Casa Universitaria del Libro UANL</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        uanl: { blue: '#004a87', gold: '#fccf0a', text: '#414143' }
+                    },
+                    fontFamily: {
+                        'inter-black': ['"Inter"', 'sans-serif'], 
+                        'bodoni': ['"Libre Bodoni"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .nav-item:hover .dropdown-menu { display: block; }
+        
+        /* Estilos para el Mosaico de Galería */
+        .masonry-grid {
+            column-count: 2;
+            column-gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            .masonry-grid { column-count: 3; }
+        }
+        @media (min-width: 1024px) {
+            .masonry-grid { column-count: 4; }
+        }
+        
+        /* Evita que las imágenes se corten entre columnas */
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+        }
+
+        /* Estilo para los acordeones */
+        .accordion-content {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .accordion-content.open {
+            max-height: 500px; /* Altura suficiente para el contenido */
+            opacity: 1;
+        }
+        
+        .active-category {
+            color: #fccf0a !important; 
+        }
+
+        /* Scroll suave */
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-white text-uanl-text font-bodoni flex flex-col min-h-screen">
+
+    <!-- HEADER -->
+    <header class="fixed top-0 w-full z-50 bg-uanl-blue shadow-md">
+        <div class="container mx-auto px-4 h-20 flex items-center justify-between lg:justify-center lg:gap-4 relative z-50 bg-uanl-blue">
+            
+            <div class="flex-shrink-0 mr-8">
+                <a href="index.html" class="flex items-center">
+                    <img src="img/logocasauanl.svg" alt="Logo Casa Universitaria del Libro" class="h-16 w-auto"> 
+                </a>
+            </div>
+
+            <nav class="hidden lg:flex items-center space-x-6 font-inter-black text-white text-sm">
+                
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span id="desktop-nosotros" class="menu-parent">NOSOTROS <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-80 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="lacasa.html" class="submenu-link block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">LA CASA</a>
+                        <a href="salalectura.html" class="submenu-link block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">SALA DE LECTURA CARMEN ALARDÍN</a>
+                        <a href="contacto.html" class="submenu-link block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">CONTACTO</a>
+                    </div>
+                </div>
+
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold transition-colors">
+                    <span id="desktop-editorial" class="menu-parent">EDITORIAL UNIVERSITARIA UANL <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-56 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="colecciones.html" class="submenu-link block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">COLECCIONES EDITORIALES</a>
+                        <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="submenu-link block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">TIENDA</a>
+                    </div>
+                </div>
+
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="hover:text-uanl-gold transition-colors">UANLEER</a>
+                <a href="noticias.html" id="desktop-noticias" class="hover:text-uanl-gold transition-colors">NOTICIAS</a>
+                <a href="programas.html" id="desktop-programas" class="hover:text-uanl-gold transition-colors active-category">PROGRAMAS Y PROYECTOS</a>
+                
+                <a href="calendario.html" id="desktop-calendario" title="Calendario" class="text-lg hover:text-uanl-gold transition-colors"><i class="fa-regular fa-calendar-days"></i></a>
+                <button onclick="toggleSearch()" title="Buscar" class="text-lg hover:text-uanl-gold transition-colors focus:outline-none"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </nav>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden absolute top-20 left-0 w-full bg-uanl-blue border-t border-blue-800 shadow-xl overflow-y-auto max-h-screen pb-20 z-40">
+            <div class="flex flex-col p-6 space-y-4 font-inter-black text-white">
+                <div class="border-b border-blue-800 pb-2">
+                    <span id="mobile-nosotros" class="text-uanl-gold text-sm mb-2 block font-bold opacity-70">NOSOTROS</span>
+                    <a href="lacasa.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">LA CASA</a>
+                    <a href="salalectura.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">SALA DE LECTURA CARMEN ALARDÍN</a>
+                    <a href="contacto.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">CONTACTO</a>
+                </div>
+                <div class="border-b border-blue-800 pb-2">
+                    <span id="mobile-editorial" class="text-uanl-gold text-sm mb-2 block font-bold opacity-70">EDITORIAL</span>
+                    <a href="colecciones.html" class="block py-2 pl-4 hover:bg-blue-900 rounded">COLECCIONES</a>
+                    <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block py-2 pl-4 hover:bg-blue-900 rounded">TIENDA</a>
+                </div>
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="block py-2 hover:text-uanl-gold">UANLEER</a>
+                <a href="noticias.html" id="mobile-noticias" class="block py-2 hover:text-uanl-gold">NOTICIAS</a>
+                <a href="programas.html" id="mobile-programas" class="block py-2 hover:text-uanl-gold active-category">PROGRAMAS</a>
+                <a href="calendario.html" id="mobile-calendario" class="block py-2 hover:text-uanl-gold border-t border-blue-800 mt-2 pt-4">
+                    <i class="fa-regular fa-calendar-days mr-2"></i> CALENDARIO
+                </a>
+            </div>
+        </div>
+        
+        <div id="searchBar" class="hidden bg-white py-4 px-6 absolute w-full shadow-md z-30">
+            <input type="text" placeholder="Buscar palabras clave..." class="w-full border-b-2 border-uanl-blue p-2 outline-none text-uanl-text font-bodoni text-xl">
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="mt-28 mb-12 flex-grow">
+        <div class="container mx-auto px-4">
+            
+            <div class="flex flex-col lg:flex-row gap-8">
+                
+                <!-- COLUMNA IZQUIERDA: Contenido Principal -->
+                <div class="w-full lg:w-2/3">
+                    
+                    <!-- Título Principal -->
+                    <h1 class="text-4xl md:text-5xl font-inter-black text-uanl-text mb-8 text-left">Programas y proyectos</h1>
+
+                    <!-- Bloques Desplegables (Acordeones) -->
+                    <div class="space-y-4 mb-12">
+                        
+                        <!-- Bloque 1: Visitas -->
+                        <div class="rounded-xl overflow-hidden shadow-sm">
+                            <button onclick="toggleAccordion('acc1')" class="group w-full bg-uanl-gold px-6 py-4 flex justify-between items-center text-left hover:bg-yellow-400 transition-colors focus:outline-none">
+                                <span id="text-acc1" class="font-bodoni text-uanl-text text-xl group-hover:text-uanl-blue transition-colors duration-300">Visitas</span>
+                                <i id="icon-acc1" class="fa-solid fa-plus text-uanl-text group-hover:text-uanl-blue transition-all duration-300"></i>
+                            </button>
+                            <div id="acc1" class="accordion-content bg-uanl-gold/50">
+                                <div class="p-6 text-lg text-uanl-text font-bodoni leading-relaxed">
+                                    La Casa Universitaria del Libro abre sus puertas a escuelas, clubes de lectura y grupos de formadores del libro. Sólo es cuestión de que nos llames y agendemos una fecha.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bloque 2: Programación de eventos -->
+                        <div class="rounded-xl overflow-hidden shadow-sm">
+                            <button onclick="toggleAccordion('acc2')" class="group w-full bg-uanl-gold px-6 py-4 flex justify-between items-center text-left hover:bg-yellow-400 transition-colors focus:outline-none">
+                                <span id="text-acc2" class="font-bodoni text-uanl-text text-xl group-hover:text-uanl-blue transition-colors duration-300">Programación de eventos</span>
+                                <i id="icon-acc2" class="fa-solid fa-plus text-uanl-text group-hover:text-uanl-blue transition-all duration-300"></i>
+                            </button>
+                            <div id="acc2" class="accordion-content bg-uanl-gold/50">
+                                <div class="p-6 text-lg text-uanl-text font-bodoni leading-relaxed">
+                                    Ponte en contacto con nuestro equipo para evaluar la posibilidad de realizar tu evento en la Casa. El espacio está disponible para agendar presentaciones editoriales, charlas con autores, lecturas y otros eventos culturales.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bloque 3: Diálogos -->
+                        <div class="rounded-xl overflow-hidden shadow-sm">
+                            <button onclick="toggleAccordion('acc3')" class="group w-full bg-uanl-gold px-6 py-4 flex justify-between items-center text-left hover:bg-yellow-400 transition-colors focus:outline-none">
+                                <span id="text-acc3" class="font-bodoni text-uanl-text text-xl group-hover:text-uanl-blue transition-colors duration-300">Diálogos en Casa Universitaria del Libro</span>
+                                <i id="icon-acc3" class="fa-solid fa-plus text-uanl-text group-hover:text-uanl-blue transition-all duration-300"></i>
+                            </button>
+                            <div id="acc3" class="accordion-content bg-uanl-gold/50">
+                                <div class="p-6 text-lg text-uanl-text font-bodoni leading-relaxed">
+                                    Con el fin de servir de puente entre lectores y escritores, entre universitarios y la comunidad, en la Casa Universitaria del Libro UANL se gestionan encuentros, lecturas y presentaciones de libros. La programación de los ciclos de diálogo cambia cada año, aunque algunos se mantienen.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bloque 4: Escuela de verano -->
+                        <div class="rounded-xl overflow-hidden shadow-sm">
+                            <button onclick="toggleAccordion('acc4')" class="group w-full bg-uanl-gold px-6 py-4 flex justify-between items-center text-left hover:bg-yellow-400 transition-colors focus:outline-none">
+                                <span id="text-acc4" class="font-bodoni text-uanl-text text-xl group-hover:text-uanl-blue transition-colors duration-300">Escuela de verano UANL</span>
+                                <i id="icon-acc4" class="fa-solid fa-plus text-uanl-text group-hover:text-uanl-blue transition-all duration-300"></i>
+                            </button>
+                            <div id="acc4" class="accordion-content bg-uanl-gold/50">
+                                <div class="p-6 text-lg text-uanl-text font-bodoni leading-relaxed">
+                                    Organizamos actividades, cursos y talleres en torno al libro y la lectura dirigidos a estudiantes y la comunidad lectora en el marco de la Escuela de verano UANL. Conoce el programa de este año en nuestras redes o calendario de eventos.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- GALERÍA -->
+                    <h2 class="text-3xl font-inter-black text-uanl-text mb-6">Galería</h2>
+                    
+                    <div class="masonry-grid w-full" id="gallery-container">
+                        <!-- Img 1 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/bienvenidacasalibro.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <!-- Img 2 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/espectaculocasalibro.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <!-- Img 3 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/clublectura.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <!-- Img 4 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/musicaenvivo.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <!-- Img 5 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/libreriainterior.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <!-- Img 6 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/presentacioneditorial.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <!-- Img 7 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/tallercasalibro2.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <!-- Img 8 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/clublectura2.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <!-- Img 9 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/libroslibros.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <!-- Img 10 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/tallercasauanl.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <!-- Img 11 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/tallerverano1.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <!-- Img 12 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/tallercasalibro3.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <!-- Img 13 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/tallerverano.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <!-- Img 14 -->
+                        <div class="masonry-item group relative cursor-pointer" onclick="openLightbox(this)">
+                            <img src="img/tallerverano5.jpg" alt="Galería" class="w-full rounded-lg shadow-md transform transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- COLUMNA DERECHA: ASIDE -->
+                <aside class="w-full lg:w-1/3 space-y-8 h-fit sticky top-24">
+                    
+                    <!-- Próximos Eventos -->
+                    <div class="bg-gray-50 p-6 border-l-4 border-uanl-blue rounded-r-lg">
+                        <h2 class="text-uanl-blue font-inter-black text-xl mb-6 border-b pb-2">Próximos eventos</h2>
+                        <div class="space-y-6">
+                            <div class="flex gap-4">
+                                <img src="img/eventolunes1.jpg" class="w-20 h-20 object-cover rounded shadow bg-gray-200" alt="Evento">
+                                <div>
+                                    <h3 class="font-bodoni font-bold text-uanl-text leading-tight">Poesía en voz alta</h3>
+                                    <p class="text-sm font-bodoni text-gray-600">Lectura</p>
+                                    <span class="text-xs font-bold text-uanl-blue mt-1 block">1 DIC | 17:00 H</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <img src="img/eventolunes1.1.jpg" class="w-20 h-20 object-cover rounded shadow bg-gray-200" alt="Evento">
+                                <div>
+                                    <h3 class="font-bodoni font-bold text-uanl-text leading-tight">Ruinas líquidas</h3>
+                                    <p class="text-sm font-bodoni text-gray-600">Presentación editorial</p>
+                                    <span class="text-xs font-bold text-uanl-blue mt-1 block">1 DIC | 17:30 H</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <img src="img/eventolunes1.2.jpg" class="w-20 h-20 object-cover rounded shadow bg-gray-200" alt="Evento">
+                                <div>
+                                    <h3 class="font-bodoni font-bold text-uanl-text leading-tight">Reimaginar la mirada</h3>
+                                    <p class="text-sm font-bodoni text-gray-600">Presentación editorial</p>
+                                    <span class="text-xs font-bold text-uanl-blue mt-1 block">1 DIC | 18:00 H</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 text-right">
+                            <a href="calendario.html" class="font-inter-black text-uanl-blue hover:text-uanl-gold transition-colors inline-flex items-center gap-2">
+                                Ir al calendario <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="relative w-full h-48 rounded-xl overflow-hidden shadow-lg group">
+                        <img src="img/visitanteslibreriauanl.jpg" alt="Planea tu visita" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                            <a href="visitanos.html" class="bg-uanl-blue/90 text-white font-inter-black px-6 py-3 rounded-full hover:bg-uanl-gold hover:text-uanl-blue transition-all transform hover:-translate-y-1 shadow-lg border-2 border-transparent hover:border-uanl-blue">
+                                Planea tu visita
+                            </a>
+                        </div>
+                    </div>
+
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-uanl-text text-white py-12 border-t-4 border-uanl-gold mt-auto">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="font-bodoni text-2xl mb-4 text-white border-b border-gray-500 pb-2 inline-block">Contáctanos</h3>
+                <form class="space-y-3">
+                    <input type="email" placeholder="Tu correo electrónico" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold font-bodoni">
+                    <textarea maxlength="120" rows="3" placeholder="Mensaje" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold resize-none"></textarea>
+                    <button type="button" class="bg-uanl-blue text-white px-4 py-1 rounded hover:bg-uanl-gold hover:text-uanl-blue transition font-inter-black text-sm">ENVIAR</button>
+                </form>
+            </div>
+            <div class="text-center flex flex-col justify-center items-center font-bodoni space-y-2">
+                <p class="text-lg font-bold">Casa Universitaria del Libro UANL</p>
+                <p>Padre Mier 909 Pte. esquina con Vallarta.</p>
+                <p>Monterrey, Nuevo León.</p>
+                <p class="text-uanl-gold font-bold mt-2">81 8329 4111</p>
+            </div>
+            <div class="flex items-center justify-center md:justify-end gap-6">
+                <a href="https://www.facebook.com/CasaLibroUANL/?locale=es_LA" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.instagram.com/casadellibrouanl/?hl=es" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@casalibrouanl" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-gray-500 text-xs font-inter-black">&copy; 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</div>
+    </footer>
+
+    <!-- MODAL LIGHTBOX (Galería) -->
+    <div id="lightbox" class="fixed inset-0 z-[100] hidden bg-black/95 flex flex-col items-center justify-center backdrop-blur-sm" onclick="closeLightbox()">
+        
+        <!-- Botón cerrar -->
+        <button class="absolute top-4 right-6 text-white text-5xl font-bold hover:text-uanl-gold focus:outline-none z-[102]" onclick="closeLightbox()">&times;</button>
+        
+        <!-- Botón Anterior -->
+        <button class="absolute left-2 md:left-8 top-1/2 transform -translate-y-1/2 text-white hover:text-uanl-gold text-4xl md:text-6xl p-4 focus:outline-none z-[102]" onclick="prevImage(event)">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <!-- Imagen -->
+        <img id="lightbox-img" src="" alt="Imagen expandida" class="max-w-[85vw] max-h-[85vh] rounded-md shadow-2xl object-contain transition-all duration-300" onclick="event.stopPropagation()">
+
+        <!-- Botón Siguiente -->
+        <button class="absolute right-2 md:right-8 top-1/2 transform -translate-y-1/2 text-white hover:text-uanl-gold text-4xl md:text-6xl p-4 focus:outline-none z-[102]" onclick="nextImage(event)">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        
+        <p class="absolute bottom-4 text-white/50 text-sm">Use las flechas del teclado para navegar</p>
+    </div>
+
+    <script>
+        // --- 1. Header & Mobile Menu ---
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('hidden');
+            if(!searchBar.classList.contains('hidden')) searchBar.querySelector('input').focus();
+        }
+        
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+
+        // --- 2. Iluminado del Menú ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const programsDesktop = document.getElementById('desktop-programas');
+            const programsMobile = document.getElementById('mobile-programas');
+            if(programsDesktop) programsDesktop.classList.add('active-category');
+            if(programsMobile) programsMobile.classList.add('active-category');
+
+            const subLinks = document.querySelectorAll('.submenu-link');
+            subLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    const parentGroup = this.closest('.group');
+                    if (parentGroup) {
+                        document.querySelectorAll('.active-category').forEach(el => el.classList.remove('active-category'));
+                        const parentSpan = parentGroup.querySelector('.menu-parent');
+                        if (parentSpan) parentSpan.classList.add('active-category');
+                    }
+                });
+            });
+
+            // --- CARGAR LISTA DE IMÁGENES AL INICIO ---
+            const galleryImages = document.querySelectorAll('.masonry-item img');
+            galleryImageList = Array.from(galleryImages).map(img => img.src);
+        });
+
+        // --- 3. Acordeones (Lógica Modificada para persistir color azul) ---
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            const text = document.getElementById('text-' + id);
+            
+            if (content.classList.contains('open')) {
+                // AL CERRAR
+                content.classList.remove('open');
+                
+                // Icono vuelve a ser (+) y gris oscuro
+                icon.classList.remove('fa-minus', 'text-uanl-blue');
+                icon.classList.add('fa-plus', 'text-uanl-text');
+                
+                // Texto vuelve a ser gris oscuro
+                text.classList.remove('text-uanl-blue');
+                text.classList.add('text-uanl-text');
+
+            } else {
+                // AL ABRIR
+                content.classList.add('open');
+                
+                // Icono se vuelve (-) y AZUL
+                icon.classList.remove('fa-plus', 'text-uanl-text');
+                icon.classList.add('fa-minus', 'text-uanl-blue');
+                
+                // Texto se vuelve AZUL
+                text.classList.remove('text-uanl-text');
+                text.classList.add('text-uanl-blue');
+            }
+        }
+
+        // --- 4. Lightbox Galería ---
+        let galleryImageList = [];
+        let currentImageIndex = 0;
+
+        function openLightbox(element) {
+            const img = element.querySelector('img');
+            const src = img.src;
+            
+            currentImageIndex = galleryImageList.indexOf(src);
+            updateLightboxImage();
+            
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; 
+            
+            document.addEventListener('keydown', handleKeyboardNav);
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.add('hidden');
+            document.body.style.overflow = 'auto'; 
+            document.removeEventListener('keydown', handleKeyboardNav);
+        }
+
+        function updateLightboxImage() {
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = galleryImageList[currentImageIndex];
+        }
+
+        function nextImage(event) {
+            if(event) event.stopPropagation();
+            currentImageIndex = (currentImageIndex + 1) % galleryImageList.length;
+            updateLightboxImage();
+        }
+
+        function prevImage(event) {
+            if(event) event.stopPropagation();
+            currentImageIndex = (currentImageIndex - 1 + galleryImageList.length) % galleryImageList.length;
+            updateLightboxImage();
+        }
+
+        function handleKeyboardNav(e) {
+            if(document.getElementById('lightbox').classList.contains('hidden')) return;
+            
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'Escape') closeLightbox();
+        }
+    </script>
+</body>
+</html>
