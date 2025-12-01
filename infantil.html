@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infantil | Colecciones Casa Universitaria del Libro UANL</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Libre+Bodoni:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        uanl: { blue: '#004a87', gold: '#fccf0a', text: '#414143' }
+                    },
+                    fontFamily: {
+                        'inter-black': ['"Inter"', 'sans-serif'], 
+                        'bodoni': ['"Libre Bodoni"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .nav-item:hover .dropdown-menu { display: block; }
+        .active-category { color: #fccf0a !important; }
+        html { scroll-behavior: smooth; }
+
+        /* Estilos del Carrusel */
+        .carousel-wrapper {
+            max-width: 1200px; 
+            margin: 0 auto; 
+            overflow: hidden;
+            position: relative;
+            padding: 3rem 0;
+        }
+        
+        .carousel-track {
+            display: flex;
+            /* IMPORTANTE: Padding eliminado para alineación matemática perfecta */
+            padding: 0; 
+            gap: 4rem; 
+            width: max-content;
+        }
+
+        .book-card {
+            flex: 0 0 auto;
+            width: 280px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
+            position: relative;
+            opacity: 0.4; 
+            transform: scale(0.85); 
+            filter: grayscale(100%); 
+        }
+
+        /* ESTADO ACTIVO (CENTRO) */
+        .book-card.active-card {
+            opacity: 1;
+            transform: scale(1.15); 
+            z-index: 10;
+            filter: grayscale(0%);
+        }
+        
+        .book-card:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+
+        .book-cover {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Flechas de navegación */
+        .nav-arrow {
+            position: absolute;
+            top: 45%; 
+            transform: translateY(-50%);
+            background-color: white;
+            color: #fccf0a;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 30; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            border: 2px solid #fccf0a;
+        }
+        .nav-arrow:hover {
+            background-color: #fccf0a;
+            color: #004a87;
+            transform: translateY(-50%) scale(1.1);
+        }
+        .nav-arrow.prev { left: 10px; }
+        .nav-arrow.next { right: 10px; }
+        
+        @media (min-width: 1024px) {
+            .nav-arrow.prev { left: -10px; }
+            .nav-arrow.next { right: -10px; }
+        }
+
+        /* Botón de colección */
+        .btn-collection {
+            transition: all 0.3s ease;
+        }
+        .btn-collection:hover {
+            background-color: #fccf0a;
+            color: #004a87;
+            box-shadow: 0 0 15px rgba(252, 207, 10, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-white text-uanl-text font-bodoni flex flex-col min-h-screen">
+
+    <!-- HEADER (Sticky) -->
+    <header class="fixed top-0 w-full z-50 bg-uanl-blue shadow-md">
+        <div class="container mx-auto px-4 h-20 flex items-center justify-between lg:justify-center lg:gap-4 relative z-50 bg-uanl-blue">
+            <div class="flex-shrink-0 mr-8">
+                <a href="index.html" class="flex items-center">
+                    <img src="img/logocasauanl.svg" alt="Logo Casa Universitaria del Libro" class="h-16 w-auto"> 
+                </a>
+            </div>
+            <nav class="hidden lg:flex items-center space-x-6 font-inter-black text-white text-sm">
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold">
+                    <span class="menu-parent">NOSOTROS <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-80 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="lacasa.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">LA CASA</a>
+                        <a href="salalectura.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">SALA DE LECTURA</a>
+                        <a href="contacto.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">CONTACTO</a>
+                    </div>
+                </div>
+                <div class="relative group nav-item py-6 cursor-pointer hover:text-uanl-gold">
+                    <span class="menu-parent active-category">EDITORIAL UNIVERSITARIA UANL <i class="fa-solid fa-caret-down ml-1"></i></span>
+                    <div class="dropdown-menu absolute hidden left-0 top-full w-56 bg-uanl-blue shadow-lg border-t-2 border-uanl-gold">
+                        <a href="colecciones.html" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900 active-category">COLECCIONES</a>
+                        <a href="https://tiendacasadellibro.uanl.mx/" target="_blank" class="block px-4 py-3 text-white hover:text-uanl-gold hover:bg-blue-900">TIENDA</a>
+                    </div>
+                </div>
+                <a href="https://uanleer.uanl.mx/" target="_blank" class="hover:text-uanl-gold">UANLEER</a>
+                <a href="noticias.html" class="hover:text-uanl-gold">NOTICIAS</a>
+                <a href="programas.html" class="hover:text-uanl-gold">PROGRAMAS</a>
+                <a href="calendario.html" class="text-lg hover:text-uanl-gold"><i class="fa-regular fa-calendar-days"></i></a>
+                <button onclick="toggleSearch()" class="text-lg hover:text-uanl-gold focus:outline-none"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </nav>
+            <button id="mobile-menu-btn" class="lg:hidden text-white text-2xl focus:outline-none"><i class="fa-solid fa-bars"></i></button>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden absolute top-20 left-0 w-full bg-uanl-blue border-t border-blue-800 shadow-xl overflow-y-auto max-h-screen pb-20 z-40">
+            <div class="flex flex-col p-6 space-y-4 font-inter-black text-white">
+                <a href="lacasa.html" class="block py-2 hover:text-uanl-gold">LA CASA</a>
+                <a href="colecciones.html" class="block py-2 hover:text-uanl-gold active-category">COLECCIONES</a>
+                <a href="https://tiendacasadellibro.uanl.mx/" class="block py-2 hover:text-uanl-gold">TIENDA</a>
+            </div>
+        </div>
+
+        <div id="searchBar" class="hidden bg-white py-4 px-6 absolute w-full shadow-md z-30">
+            <input type="text" placeholder="Buscar palabras clave..." class="w-full border-b-2 border-uanl-blue p-2 outline-none text-uanl-text font-bodoni text-xl">
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="mt-32 mb-20 flex-grow">
+        <div class="container mx-auto px-4 relative">
+            
+            <!-- Título y Descripción -->
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <h1 class="text-5xl md:text-6xl font-inter-black text-uanl-text mb-8 tracking-wide">Infantil</h1>
+                <p class="font-bodoni text-xl md:text-2xl text-uanl-text leading-relaxed px-4 text-justify md:text-center">
+                    Una colección que reúne a autores jóvenes regiomontanos y a la más reciente literatura infantil escrita en Monterrey. Con ilustraciones asombrosas, esta colección nos acerca a los futuros universitarios: las niñas y niños de nuestra ciudad.
+                </p>
+            </div>
+
+            <!-- CARRUSEL -->
+            <div class="carousel-wrapper" id="carouselContainer">
+                
+                <!-- Flechas -->
+                <button class="nav-arrow prev" onclick="moveCarousel(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="nav-arrow next" onclick="moveCarousel(1)"><i class="fa-solid fa-chevron-right"></i></button>
+
+                <!-- Track -->
+                <div class="carousel-track items-start" id="track">
+                    
+                    <!-- Libro 1 -->
+                    <div class="book-card" onclick="window.open('https://fondoeditorialnl.gob.mx/producto/la-saeta/', '_blank')">
+                        <img src="img/saeta.jpg" class="book-cover">
+                        <div class="text-center w-full px-2">
+                            <h1 class="font-bodoni text-xl text-uanl-blue leading-tight mb-2"><span class="italic font-bold">La saeta</span> (2025)</h1>
+                            <h2 class="font-bodoni text-lg text-uanl-text font-bold">Alfonso Reyes</h2>
+                        </div>
+                    </div>
+
+                    <!-- Libro 2 -->
+                    <div class="book-card" onclick="window.open('https://tiendacasadellibro.uanl.mx/producto/el-libro-oscuro/', '_blank')">
+                        <img src="img/librooscuro.jpg" class="book-cover">
+                        <div class="text-center w-full px-2">
+                            <h1 class="font-bodoni text-xl text-uanl-blue leading-tight mb-2"><span class="italic font-bold">El libro oscuro</span> (2023)</h1>
+                            <h2 class="font-bodoni text-lg text-uanl-text font-bold">Yarezi Salazar</h2>
+                        </div>
+                    </div>
+
+                    <!-- Libro 3 -->
+                    <div class="book-card" onclick="window.open('https://tiendacasadellibro.uanl.mx/producto/sol-de-monterrey/', '_blank')">
+                        <img src="img/solmty.jpg" class="book-cover">
+                        <div class="text-center w-full px-2">
+                            <h1 class="font-bodoni text-xl text-uanl-blue leading-tight mb-2"><span class="italic font-bold">Sol de Monterrey</span> (2023)</h1>
+                            <h2 class="font-bodoni text-lg text-uanl-text font-bold">Alfonso Reyes</h2>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Botón Ver Toda -->
+            <div class="text-center mt-8">
+                <a href="https://editorialuniversitaria.uanl.mx/infantil/" class="btn-collection inline-block bg-uanl-blue text-white font-inter-black px-10 py-4 rounded-xl text-xl uppercase tracking-wide shadow-lg">
+                    Ver toda la colección
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER COMPLETO -->
+    <footer class="bg-uanl-text text-white py-12 border-t-4 border-uanl-gold mt-auto">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="font-bodoni text-2xl mb-4 text-white border-b border-gray-500 pb-2 inline-block">Contáctanos</h3>
+                <form class="space-y-3">
+                    <input type="email" placeholder="Tu correo electrónico" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold font-bodoni">
+                    <textarea maxlength="120" rows="3" placeholder="Mensaje" class="w-full p-2 bg-gray-600 text-white placeholder-gray-300 border border-gray-500 rounded focus:outline-none focus:border-uanl-gold resize-none"></textarea>
+                    <button type="button" class="bg-uanl-blue text-white px-4 py-1 rounded hover:bg-uanl-gold hover:text-uanl-blue transition font-inter-black text-sm">ENVIAR</button>
+                </form>
+            </div>
+            <div class="text-center flex flex-col justify-center items-center font-bodoni space-y-2">
+                <p class="text-lg font-bold">Casa Universitaria del Libro UANL</p>
+                <p>Padre Mier 909 Pte. esquina con Vallarta.</p>
+                <p>Monterrey, Nuevo León.</p>
+                <p class="text-uanl-gold font-bold mt-2">81 8329 4111</p>
+            </div>
+            <div class="flex items-center justify-center md:justify-end gap-6">
+                <a href="https://www.facebook.com/CasaLibroUANL/?locale=es_LA" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.instagram.com/casadellibrouanl/?hl=es" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@casalibrouanl" target="_blank" class="text-3xl hover:text-uanl-gold transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-gray-500 text-xs font-inter-black">&copy; 2025 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN</div>
+    </footer>
+
+    <script>
+        // --- Header & Search Logic ---
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('hidden');
+            if(!searchBar.classList.contains('hidden')) searchBar.querySelector('input').focus();
+        }
+        
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+            btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
+        }
+
+        // --- CARRUSEL INFINITO ---
+        
+        const track = document.getElementById('track');
+        const wrapper = document.getElementById('carouselContainer');
+        
+        // 1. Obtener libros originales
+        const originalCards = Array.from(document.querySelectorAll('.book-card'));
+        const originalCount = originalCards.length;
+
+        // 2. Clonar para efecto infinito
+        originalCards.forEach(card => {
+            const clone = card.cloneNode(true);
+            clone.classList.add('clone-prev');
+            track.insertBefore(clone, track.firstChild);
+        });
+
+        originalCards.forEach(card => {
+            const clone = card.cloneNode(true);
+            clone.classList.add('clone-next');
+            track.appendChild(clone);
+        });
+
+        let allCards = document.querySelectorAll('.book-card');
+        
+        // Empezamos en la mitad del set ORIGINAL
+        // Al ser 3 libros, el index original es 0,1,2. floor(3/2) = 1 (el libro del centro)
+        // start = 3 (clones previos) + 1 = 4
+        let currentIndex = originalCount + Math.floor(originalCount / 2);
+        
+        let isTransitioning = false;
+
+        function updateCarousel(useTransition = true) {
+            // Datos dimensiones
+            const cardWidth = 280; 
+            const gap = 64; // 4rem = 64px
+            const totalItemWidth = cardWidth + gap;
+            
+            // Centrado
+            const wrapperWidth = wrapper.offsetWidth;
+            
+            // Cálculo preciso sin padding extra del track
+            const activeItemLeft = currentIndex * totalItemWidth; 
+            const activeItemCenter = activeItemLeft + (cardWidth / 2);
+            
+            // Queremos que el centro del libro coincida con el centro del wrapper
+            const offset = (wrapperWidth / 2) - activeItemCenter;
+
+            if (useTransition) {
+                track.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+            } else {
+                track.style.transition = 'none';
+            }
+            
+            track.style.transform = `translateX(${offset}px)`;
+
+            // Estilos visuales
+            allCards.forEach((card, index) => {
+                if (index === currentIndex) {
+                    card.classList.add('active-card');
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1.15)';
+                    card.style.filter = 'grayscale(0%)';
+                } else {
+                    card.classList.remove('active-card');
+                    card.style.opacity = '0.4';
+                    card.style.transform = 'scale(0.85)';
+                    card.style.filter = 'grayscale(100%)';
+                }
+            });
+        }
+
+        function moveCarousel(direction) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+            currentIndex += direction;
+            updateCarousel(true);
+        }
+
+        // Check for infinite jumps
+        track.addEventListener('transitionend', () => {
+            isTransitioning = false;
+            
+            if (currentIndex >= originalCount * 2) {
+                currentIndex = currentIndex - originalCount;
+                updateCarousel(false);
+            }
+            else if (currentIndex < originalCount) {
+                currentIndex = currentIndex + originalCount;
+                updateCarousel(false); 
+            }
+        });
+
+        // Init
+        window.addEventListener('resize', () => updateCarousel(false));
+        window.addEventListener('load', () => {
+            allCards = document.querySelectorAll('.book-card');
+            updateCarousel(false);
+        });
+        
+        setTimeout(() => updateCarousel(false), 100);
+
+    </script>
+</body>
+</html>
